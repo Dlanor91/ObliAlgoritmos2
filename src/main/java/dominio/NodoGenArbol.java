@@ -11,6 +11,9 @@ public class NodoGenArbol<T> {
         this.der = null;
     }
 
+    public NodoGenArbol() {
+    }
+
     public NodoGenArbol(T unDato, NodoGenArbol<T> izq, NodoGenArbol<T> der) {
         this.dato = unDato;
         this.izq = izq;
