@@ -1,6 +1,8 @@
 package sistema;
 
+import dominio.ABB;
 import dominio.Jugador;
+import dominio.NodoGenArbol;
 import interfaz.Consulta;
 import interfaz.EstadoCamino;
 import interfaz.Retorno;
@@ -8,13 +10,13 @@ import interfaz.Sistema;
 import interfaz.TipoJugador;
 
 public class ImplementacionSistema implements Sistema {
-
+    private ABB<Jugador> arbolJugadores;
     //no terminador
     @Override
     public Retorno inicializarSistema(int maxCentros) {
         if(maxCentros>5){
             //Todo lo que se inicialice seria aqui
-
+            arbolJugadores = new ABB<>();
             return Retorno.ok();
         }
 
@@ -31,6 +33,9 @@ public class ImplementacionSistema implements Sistema {
     public Retorno registrarJugador(String ci, String nombre,int edad, String escuela, TipoJugador tipo) {
         if(!ci.isEmpty() && !nombre.isEmpty() && edad != 0 && !escuela.isEmpty() && tipo != null){
             if(Jugador.validarCedula(ci)){
+                Jugador nuevoJugador = new Jugador(ci,nombre,edad,escuela,tipo);
+                //verificar jugadores repetidos
+                arbolJugadores.insertar(nuevoJugador);
                 return Retorno.ok();
             }else{
                 return Retorno.error2("La cedula no tiene un formato valido.");

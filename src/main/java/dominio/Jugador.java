@@ -5,7 +5,8 @@ import interfaz.TipoJugador;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Jugador {
+public class Jugador implements Comparable<Jugador> {
+    private int cedulaInt;
     private String cedula;
     private String nombre;
     private int edad;
@@ -21,10 +22,15 @@ public class Jugador {
         this.edad = edad;
         this.escuela = escuela;
         this.tipo = tipo;
+        this.cedulaInt = getConvertirCedulaEntero(cedula);
     }
 
     public String getCedula() {
         return cedula;
+    }
+
+    public int getCedulaInt() {
+        return cedulaInt;
     }
 
     public String getNombre() {
@@ -43,14 +49,18 @@ public class Jugador {
         return tipo;
     }
 
-    //Desarrollar
-    public int getConvertirCedula(){
-        int cedulaInt = 0;
+    public static int getConvertirCedulaEntero(String cedula){
 
+        String cedulaNueva="";
+        for(int i=0;i<cedula.length();i++){
+            if(cedula.charAt(i) != '.' && cedula.charAt(i) != '-'){
+                cedulaNueva+=cedula.charAt(i);
+            }
+        }
+        int cedulaInt = Integer.parseInt(cedulaNueva);
         return cedulaInt;
     }
 
-    //Desarrollar
     public static boolean validarCedula(String cedula){
 
             if(cedula.length()==11){
@@ -70,4 +80,20 @@ public class Jugador {
             }
         return false;
     }
+
+    @Override
+    public int compareTo(Jugador o) {
+
+        if(cedulaInt == o.cedulaInt){
+            return 0;
+        }
+
+        if(cedulaInt > o.cedulaInt){
+            return 1;
+        }
+
+        return -1;
+    }
+
+
 }
