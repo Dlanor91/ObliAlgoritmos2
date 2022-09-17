@@ -33,5 +33,6 @@ public class TestSistemaAFuturo {
         Assertions.assertEquals(Retorno.ok().getResultado(), sistema.registrarJugador("9.634.456-1","DerPedro",12,"Escuela1", TipoJugador.MEDIO).getResultado());
 
         System.out.println("Ver");
+        System.out.println("Ver2");
     }
 }
