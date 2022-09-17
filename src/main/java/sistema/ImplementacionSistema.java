@@ -1,5 +1,6 @@
 package sistema;
 
+import dominio.Jugador;
 import interfaz.Consulta;
 import interfaz.EstadoCamino;
 import interfaz.Retorno;
@@ -10,7 +11,13 @@ public class ImplementacionSistema implements Sistema {
 
     @Override
     public Retorno inicializarSistema(int maxCentros) {
-        return Retorno.noImplementada();
+        if(maxCentros>5){
+            //Todo lo que se inicialice seria aqui
+
+            return Retorno.ok();
+        }
+
+        return Retorno.error1("maxCentros es menor o igual a 5.");
     }
 
     @Override
@@ -20,7 +27,17 @@ public class ImplementacionSistema implements Sistema {
 
     @Override
     public Retorno registrarJugador(String ci, String nombre,int edad, String escuela, TipoJugador tipo) {
-        return Retorno.noImplementada();
+        if(!ci.isEmpty() && !nombre.isEmpty() && edad != 0 && !escuela.isEmpty() && tipo != null){
+            if(Jugador.validarCedula(ci)){
+                return Retorno.ok();
+            }else{
+                return Retorno.error2("La cedula no tiene un formato valido.");
+            }
+
+        }else{
+            return Retorno.error1("Debe completar todos los parametros.");
+        }
+
     }
 
     @Override
