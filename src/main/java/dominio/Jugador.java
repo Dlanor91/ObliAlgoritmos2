@@ -55,14 +55,14 @@ public class Jugador {
 
             if(cedula.length()==11){
 
-                Pattern pat11 = Pattern.compile("\\d[.]\\d\\d\\d[.]\\d\\d\\d[-]\\d");
+                Pattern pat11 = Pattern.compile("[1-9][.]\\d\\d\\d[.]\\d\\d\\d[-]\\d");
                 Matcher mat11 = pat11.matcher(cedula);
 
                 if (mat11.matches()) {
                     return true;
                 }
             }else if(cedula.length()==9){
-                Pattern pat9 = Pattern.compile("\\d\\d\\d[.]\\d\\d\\d[-]\\d");
+                Pattern pat9 = Pattern.compile("[1-9]\\d\\d[.]\\d\\d\\d[-]\\d");
                 Matcher mat9 = pat9.matcher(cedula);
                 if (mat9.matches()) {
                     return true;

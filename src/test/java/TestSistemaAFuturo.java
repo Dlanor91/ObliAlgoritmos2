@@ -24,6 +24,8 @@ public class TestSistemaAFuturo {
         Assertions.assertEquals(Retorno.error2("Error2").getResultado(), sistema.registrarJugador("123.456.1","Pedro",12,"Escuela1", TipoJugador.MEDIO).getResultado());
         Assertions.assertEquals(Retorno.error2("Error2").getResultado(), sistema.registrarJugador("a34.456-1","Pedro",12,"Escuela1", TipoJugador.MEDIO).getResultado());
         Assertions.assertEquals(Retorno.error2("Error2").getResultado(), sistema.registrarJugador("11.234.456-1","Pedro",12,"Escuela1", TipoJugador.MEDIO).getResultado());
+        Assertions.assertEquals(Retorno.error2("Error2").getResultado(), sistema.registrarJugador("0.234.456-1","Pedro",12,"Escuela1", TipoJugador.MEDIO).getResultado());
+        Assertions.assertEquals(Retorno.error2("Error2").getResultado(), sistema.registrarJugador("034.456-1","Pedro",12,"Escuela1", TipoJugador.MEDIO).getResultado());
 
     }
 }

@@ -9,6 +9,7 @@ import interfaz.TipoJugador;
 
 public class ImplementacionSistema implements Sistema {
 
+    //no terminador
     @Override
     public Retorno inicializarSistema(int maxCentros) {
         if(maxCentros>5){
@@ -25,6 +26,7 @@ public class ImplementacionSistema implements Sistema {
         return Retorno.noImplementada();
     }
 
+    //no terminado
     @Override
     public Retorno registrarJugador(String ci, String nombre,int edad, String escuela, TipoJugador tipo) {
         if(!ci.isEmpty() && !nombre.isEmpty() && edad != 0 && !escuela.isEmpty() && tipo != null){
@@ -33,7 +35,6 @@ public class ImplementacionSistema implements Sistema {
             }else{
                 return Retorno.error2("La cedula no tiene un formato valido.");
             }
-
         }else{
             return Retorno.error1("Debe completar todos los parametros.");
         }
