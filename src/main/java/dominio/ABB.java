@@ -59,7 +59,6 @@ public class ABB<T extends Comparable<T>> {
     private void listarDescendente(NodoGenArbol nodo,ListaGen<T> nuevaLista) {
         if(nodo != null){
             listarDescendente(nodo.getDer(),nuevaLista);
-            //nuevaLista.agregarAlPrincipio((T)nodo.getDato());
             nuevaLista.agregarAlFinal((T)nodo.getDato());
             listarDescendente(nodo.getIzq(),nuevaLista);
         }
