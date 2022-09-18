@@ -2,6 +2,7 @@ package sistema;
 
 import dominio.ABB;
 import dominio.Jugador;
+import dominio.ListaGen;
 import dominio.Tupla;
 import interfaz.*;
 
@@ -66,14 +67,29 @@ public class ImplementacionSistema implements Sistema {
         }
     }
 
+    //listo
     @Override
     public Retorno listarJugadoresPorCedulaAscendente() {
-        return Retorno.noImplementada();
+        Retorno retorno = new Retorno(Retorno.Resultado.OK,0,"");
+        ListaGen<Jugador> listaJugadoresAsc =arbolJugadores.listarAscendente();
+        if(listaJugadoresAsc!=null){
+            retorno = new Retorno(Retorno.Resultado.OK,0,listaJugadoresAsc.toString());
+        }
+
+        return retorno;
     }
 
+    //listo
     @Override
     public Retorno listarJugadoresPorCedulaDescendente() {
-        return Retorno.noImplementada();
+
+        Retorno retorno = new Retorno(Retorno.Resultado.OK,0,"");
+        ListaGen<Jugador> listaJugadoresDes =arbolJugadores.listarDescendente();
+        if(listaJugadoresDes!=null){
+            retorno = new Retorno(Retorno.Resultado.OK,0,listaJugadoresDes.toString());
+        }
+
+        return retorno;
     }
 
     @Override

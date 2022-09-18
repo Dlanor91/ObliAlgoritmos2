@@ -35,48 +35,36 @@ public class ABB<T extends Comparable<T>> {
 
     }
 
-    /*
     //In Order
-    public void listarAscendente(){
-        listarAscendente(this.raiz);
+    public ListaGen<T> listarAscendente(){
+        ListaGen<T> nuevaLista = new ListaGen<>();
+        listarAscendente(raiz,nuevaLista);
+        return nuevaLista;
     }
 
-    private void listarAscendente(NodoGenArbol nodo) {
-        if(nodo != null){// se puede dejar vacio  si nodo ==null
-            listarAscendente(nodo.getIzq());
-            System.out.println(nodo.getDato());
-            listarAscendente(nodo.getDer());
+    private void listarAscendente(NodoGenArbol nodo,ListaGen<T> nuevaLista) {
+        if(nodo != null){
+            listarAscendente(nodo.getIzq(),nuevaLista);
+            nuevaLista.agregarAlFinal((T)nodo.getDato());
+            listarAscendente(nodo.getDer(),nuevaLista);
         }
     }
 
-    public void listarDescendente(){
-        listarDescendente(this.raiz);
+    public ListaGen listarDescendente(){
+        ListaGen<T> nuevaLista = new ListaGen<>();
+        listarDescendente(this.raiz,nuevaLista);
+        return nuevaLista;
     }
 
-    private void listarDescendente(NodoGenArbol nodo) {
-        if(nodo != null){// se puede dejar vacio  si nodo ==null
-
-            listarDescendente(nodo.getDer());
-            System.out.println(nodo.getDato());
-            listarDescendente(nodo.getIzq());
+    private void listarDescendente(NodoGenArbol nodo,ListaGen<T> nuevaLista) {
+        if(nodo != null){
+            listarDescendente(nodo.getDer(),nuevaLista);
+            //nuevaLista.agregarAlPrincipio((T)nodo.getDato());
+            nuevaLista.agregarAlFinal((T)nodo.getDato());
+            listarDescendente(nodo.getIzq(),nuevaLista);
         }
     }
 
-    //Post Orden
-    public void listarPostOrden(){
-        listarPostOrden(this.raiz);
-    }
-
-    private void listarPostOrden(NodoGenArbol nodo) {
-        if(nodo != null){// se puede dejar vacio  si nodo ==null
-
-            listarPostOrden(nodo.getDer());
-            System.out.println(nodo.getDato());
-            listarPostOrden(nodo.getIzq());
-        }
-    }
-
-    */
     public boolean pertenece(T dato){
         return pertenece(dato,raiz);
     }
@@ -117,6 +105,7 @@ public class ABB<T extends Comparable<T>> {
             }
         }
     }
+
 
    /* public int borrarMinimo(){
         return borrarMinimo(raiz,0,null);

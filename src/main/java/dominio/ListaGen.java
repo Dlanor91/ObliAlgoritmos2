@@ -110,7 +110,7 @@ public class ListaGen<T> {
         String mostrar="";
         NodoGenLista<T> aux=getPrimero();
         for(int i=0;i<getCantNodos()-1;i++){
-            mostrar += ""+aux.getDato()+", ";
+            mostrar += ""+aux.getDato()+" | ";
             aux=aux.getSiguiente();
         }
         mostrar += aux.getDato();
