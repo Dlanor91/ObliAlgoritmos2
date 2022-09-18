@@ -1,5 +1,6 @@
 package dominio;
 
+
 public class ABB<T extends Comparable<T>> {
 
     private NodoGenArbol raiz;
@@ -75,7 +76,8 @@ public class ABB<T extends Comparable<T>> {
         }
     }
 
-    */public boolean pertenece(T dato){
+    */
+    public boolean pertenece(T dato){
         return pertenece(dato,raiz);
     }
 
@@ -89,6 +91,29 @@ public class ABB<T extends Comparable<T>> {
                 return pertenece(dato,nodo.getIzq());
             }else{
                 return pertenece(dato,nodo.getDer());
+            }
+        }
+    }
+
+    public Tupla buscar(T dato){
+
+        Tupla parTupla = new Tupla<>(null,0);
+        buscar(dato,raiz,parTupla);
+        return parTupla;
+    }
+
+    private void buscar(T dato, NodoGenArbol nodo,Tupla nuevaTupla) {
+
+        if (nodo != null && nuevaTupla.dato == null) {
+            nuevaTupla.cantidad++;
+            if (dato.compareTo((T) nodo.getDato()) == 0) {
+                nuevaTupla.dato = nodo.getDato();
+            } else {
+                if (dato.compareTo((T) nodo.getDato()) < 0) {
+                    buscar(dato, nodo.getIzq(),nuevaTupla);
+                } else {
+                    buscar(dato, nodo.getDer(),nuevaTupla);
+                }
             }
         }
     }
