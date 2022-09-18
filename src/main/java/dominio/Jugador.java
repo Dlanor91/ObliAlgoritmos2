@@ -16,6 +16,11 @@ public class Jugador implements Comparable<Jugador> {
     public Jugador() {
     }
 
+    public Jugador(String cedula) {
+        this.cedula = cedula;
+        this.cedulaInt = getConvertirCedulaEntero(cedula);
+    }
+
     public Jugador(String cedula, String nombre, int edad, String escuela, TipoJugador tipo) {
         this.cedula = cedula;
         this.nombre = nombre;
@@ -100,6 +105,11 @@ public class Jugador implements Comparable<Jugador> {
         }
 
         return -1;
+    }
+
+    @Override
+    public String toString(){
+        return cedula + "; " + nombre + "; " + edad + "; " + escuela + "; " + tipo.getValor();
     }
 
 }

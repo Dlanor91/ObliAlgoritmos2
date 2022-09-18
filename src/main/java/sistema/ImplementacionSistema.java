@@ -2,12 +2,8 @@ package sistema;
 
 import dominio.ABB;
 import dominio.Jugador;
-import dominio.NodoGenArbol;
-import interfaz.Consulta;
-import interfaz.EstadoCamino;
-import interfaz.Retorno;
-import interfaz.Sistema;
-import interfaz.TipoJugador;
+import dominio.Tupla;
+import interfaz.*;
 
 public class ImplementacionSistema implements Sistema {
     private ABB<Jugador> arbolJugadores;
@@ -54,9 +50,20 @@ public class ImplementacionSistema implements Sistema {
         return Retorno.noImplementada();
     }
 
+    //listo
     @Override
     public Retorno buscarJugador(String ci) {
-        return Retorno.noImplementada();
+        if(!ci.isEmpty() && Jugador.validarCedula(ci)){
+            Tupla jugadorEncontrado = arbolJugadores.buscar(new Jugador(ci));
+            if(jugadorEncontrado.dato !=null){
+                Retorno retorno = new Retorno(Retorno.Resultado.OK,jugadorEncontrado.cantidad,jugadorEncontrado.dato.toString());
+                return retorno;
+            }else{
+                return Retorno.error2("No existe un jugador registrado con esa cédula.");
+            }
+        }else{
+            return Retorno.error1("La cédula no tiene formato válido.");
+        }
     }
 
     @Override
