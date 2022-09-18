@@ -31,8 +31,9 @@ public class TestSistemaAFuturo {
         Assertions.assertEquals(Retorno.ok().getResultado(), sistema.registrarJugador("8.634.456-1","DerPedro",12,"Escuela1", TipoJugador.MEDIO).getResultado());
         Assertions.assertEquals(Retorno.ok().getResultado(), sistema.registrarJugador("4.634.456-1","DerPedro",12,"Escuela1", TipoJugador.MEDIO).getResultado());
         Assertions.assertEquals(Retorno.ok().getResultado(), sistema.registrarJugador("9.634.456-1","DerPedro",12,"Escuela1", TipoJugador.MEDIO).getResultado());
+        Assertions.assertEquals(Retorno.error3("Error3").getResultado(), sistema.registrarJugador("9.634.456-1","DerPedroRepetido",12,"Escuela1", TipoJugador.MEDIO).getResultado());
 
         System.out.println("Ver");
-        System.out.println("Ver2");
+
     }
 }

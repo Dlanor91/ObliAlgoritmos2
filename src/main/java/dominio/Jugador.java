@@ -61,6 +61,13 @@ public class Jugador implements Comparable<Jugador> {
         return cedulaInt;
     }
 
+    public static boolean validar(String cedula, String nombre,int edad, String escuela, TipoJugador tipo){
+        if(!cedula.isEmpty() && !nombre.isEmpty() && edad > 0 && !escuela.isEmpty() && tipo != null){
+            return true;
+        }
+        return false;
+    }
+
     public static boolean validarCedula(String cedula){
 
             if(cedula.length()==11){
@@ -94,6 +101,5 @@ public class Jugador implements Comparable<Jugador> {
 
         return -1;
     }
-
 
 }
