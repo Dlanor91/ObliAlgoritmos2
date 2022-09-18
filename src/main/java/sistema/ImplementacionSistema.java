@@ -28,15 +28,18 @@ public class ImplementacionSistema implements Sistema {
         return Retorno.noImplementada();
     }
 
-    //no terminado
+    //listo
     @Override
     public Retorno registrarJugador(String ci, String nombre,int edad, String escuela, TipoJugador tipo) {
-        if(!ci.isEmpty() && !nombre.isEmpty() && edad != 0 && !escuela.isEmpty() && tipo != null){
+        if(Jugador.validar(ci,nombre,edad,escuela,tipo)){
             if(Jugador.validarCedula(ci)){
                 Jugador nuevoJugador = new Jugador(ci,nombre,edad,escuela,tipo);
-                //verificar jugadores repetidos
-                arbolJugadores.insertar(nuevoJugador);
-                return Retorno.ok();
+                if(!arbolJugadores.pertenece(nuevoJugador)){
+                    arbolJugadores.insertar(nuevoJugador);
+                    return Retorno.ok();
+                }else{
+                    return Retorno.error3("Ya existe un jugador registrado con esa cédula.");
+                }
             }else{
                 return Retorno.error2("La cedula no tiene un formato valido.");
             }

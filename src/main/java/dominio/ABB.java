@@ -75,25 +75,25 @@ public class ABB<T extends Comparable<T>> {
         }
     }
 
-    public boolean pertenece(int x){
-        return pertenece(x,raiz);
+    */public boolean pertenece(T dato){
+        return pertenece(dato,raiz);
     }
 
-    private boolean pertenece(int x, NodoGenArbol nodo) {
+    private boolean pertenece(T dato, NodoGenArbol nodo) {
         if(nodo == null){
             return false;
-        }else if(x == nodo.getDato()){
+        }else if(dato.compareTo((T) nodo.getDato())==0){
             return true;
         }else{
-            if(x < nodo.getDato()){
-                return pertenece(x,nodo.getIzq());
+            if(dato.compareTo((T) nodo.getDato())<0){
+                return pertenece(dato,nodo.getIzq());
             }else{
-                return pertenece(x,nodo.getDer());
+                return pertenece(dato,nodo.getDer());
             }
         }
     }
 
-    public int borrarMinimo(){
+   /* public int borrarMinimo(){
         return borrarMinimo(raiz,0,null);
     }
 
