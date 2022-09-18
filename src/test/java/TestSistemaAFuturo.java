@@ -37,6 +37,9 @@ public class TestSistemaAFuturo {
         Assertions.assertEquals(Retorno.ok().getResultado(), sistema.buscarJugador("9.634.456-1").getResultado());
         Assertions.assertEquals(Retorno.error2("No esta").getResultado(), sistema.buscarJugador("8.634.456-2").getResultado());
 
+        Assertions.assertEquals(Retorno.ok().getResultado(), sistema.listarJugadoresPorCedulaAscendente().getResultado());
+        Assertions.assertEquals(Retorno.ok().getResultado(), sistema.listarJugadoresPorCedulaDescendente().getResultado());
+
 
         System.out.println("Ver");
 
