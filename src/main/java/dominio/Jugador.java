@@ -95,11 +95,9 @@ public class Jugador implements Comparable<Jugador> {
 
     @Override
     public int compareTo(Jugador o) {
-
         if(cedulaInt == o.cedulaInt){
             return 0;
         }
-
         if(cedulaInt > o.cedulaInt){
             return 1;
         }

@@ -3,7 +3,7 @@ package dominio;
 
 public class ABB<T extends Comparable<T>> {
 
-    private NodoGenArbol raiz;
+    private NodoGenArbol<T> raiz;
 
     public ABB() {
         this.raiz = null;
@@ -12,22 +12,22 @@ public class ABB<T extends Comparable<T>> {
     // Pos: Inserta el dato pasado como parametro en el arbol manteniendolo ordenado.
     public void insertar(T dato) {
         if (this.raiz == null) {
-            this.raiz = new NodoGenArbol(dato);
+            this.raiz = new NodoGenArbol<>(dato);
         } else {
             insertarRec(this.raiz, dato);
         }
     }
 
-    private void insertarRec(NodoGenArbol<Jugador> nodo, T dato) {
-        if (dato.compareTo((T) nodo.getDato())<0) {
+    private void insertarRec(NodoGenArbol<T> nodo, T dato) {
+        if (dato.compareTo(nodo.getDato())<0) {
             if (nodo.getIzq() == null) {
-                nodo.setIzq(new NodoGenArbol(dato));
+                nodo.setIzq(new NodoGenArbol<>(dato));
             } else {
                 insertarRec(nodo.getIzq(), dato);
             }
-        } else if (dato.compareTo((T) nodo.getDato())>0) {
+        } else if (dato.compareTo(nodo.getDato())>0) {
             if (nodo.getDer() == null) {
-                nodo.setDer(new NodoGenArbol(dato));
+                nodo.setDer(new NodoGenArbol<>(dato));
             } else {
                 insertarRec(nodo.getDer(), dato);
             }
@@ -42,7 +42,7 @@ public class ABB<T extends Comparable<T>> {
         return nuevaLista;
     }
 
-    private void listarAscendente(NodoGenArbol nodo,ListaGen<T> nuevaLista) {
+    private void listarAscendente(NodoGenArbol<T> nodo,ListaGen<T> nuevaLista) {
         if(nodo != null){
             listarAscendente(nodo.getIzq(),nuevaLista);
             nuevaLista.agregarAlFinal((T)nodo.getDato());
@@ -56,7 +56,7 @@ public class ABB<T extends Comparable<T>> {
         return nuevaLista;
     }
 
-    private void listarDescendente(NodoGenArbol nodo,ListaGen<T> nuevaLista) {
+    private void listarDescendente(NodoGenArbol<T> nodo,ListaGen<T> nuevaLista) {
         if(nodo != null){
             listarDescendente(nodo.getDer(),nuevaLista);
             nuevaLista.agregarAlFinal((T)nodo.getDato());
@@ -68,32 +68,28 @@ public class ABB<T extends Comparable<T>> {
         return pertenece(dato,raiz);
     }
 
-    private boolean pertenece(T dato, NodoGenArbol nodo) {
-        if(nodo == null){
-            return false;
-        }else if(dato.compareTo((T) nodo.getDato())==0){
-            return true;
-        }else{
-            if(dato.compareTo((T) nodo.getDato())<0){
-                return pertenece(dato,nodo.getIzq());
-            }else{
-                return pertenece(dato,nodo.getDer());
+   private boolean pertenece(T dato, NodoGenArbol<T> nodo) {
+      if(nodo == null){
+         return false;
+      }else if(dato.compareTo((T) nodo.getDato())==0){
+           return true;
+       }else{
+           if(dato.compareTo((T) nodo.getDato())<0){
+              return pertenece(dato,nodo.getIzq());
+          }else{
+               return pertenece(dato,nodo.getDer());
             }
         }
     }
-
     public Tupla buscar(T dato){
-
         Tupla parTupla = new Tupla<>(null,0);
         buscar(dato,raiz,parTupla);
         return parTupla;
     }
-
-    private void buscar(T dato, NodoGenArbol nodo,Tupla nuevaTupla) {
-
+    private void buscar(T dato, NodoGenArbol<T> nodo,Tupla nuevaTupla) {
         if (nodo != null && nuevaTupla.dato == null) {
             nuevaTupla.cantidad++;
-            if (dato.compareTo((T) nodo.getDato()) == 0) {
+            if (dato.compareTo(nodo.getDato())==0) {
                 nuevaTupla.dato = nodo.getDato();
             } else {
                 if (dato.compareTo((T) nodo.getDato()) < 0) {
@@ -104,59 +100,4 @@ public class ABB<T extends Comparable<T>> {
             }
         }
     }
-
-
-   /* public int borrarMinimo(){
-        return borrarMinimo(raiz,0,null);
-    }
-
-    private int borrarMinimo(NodoGenArbol nodo,int minimo,NodoGenArbol ant)
-    {
-       if(nodo != null) {
-           if (nodo.getIzq() != null) {
-               ant = nodo;
-               int min = nodo.getDato();
-               minimo = min;
-               int minIzq = borrarMinimo(nodo.getIzq(), min, ant);
-               return minIzq;
-           } else {
-               if (ant.getDer() != null) {
-                   ant.setIzq(nodo.getDer());
-                   return nodo.getDato();
-               } else {
-                   ant.setIzq(null);
-                   return nodo.getDato();
-               }
-           }
-       }else{
-           return -1;
-       }
-    }
-     */
-
-    /* Ejercicio 6 */
-    /*Desarrolle un algoritmo que, recibiendo un valor entero k, retorne la cantidad de elementos que son mayores a k.*/
-   /* public int cantidadMayores(int k){
-        return cantidadMayores(k,raiz);
-    }
-
-    private int cantidadMayores(int k,NodoGenArbol nodo) {
-
-        if(nodo!=null){
-           if(k< nodo.getDato()){
-                int derCant = 1+cantidadMayores(k,nodo.getDer());
-                int izqCant = cantidadMayores(k,nodo.getIzq());
-                return derCant+izqCant;
-           }else{
-               return cantidadMayores(k,nodo.getDer());
-           }
-        }else{
-            return 0;
-        }
-    }
-    */
-
-
-
-
 }
