@@ -9,6 +9,10 @@ public class CentroUrbano {
         this.nombre = nombre;
     }
 
+    public CentroUrbano(String codigo) {
+        this.codigo = codigo;
+    }
+
     public String getCodigo() {
         return codigo;
     }
