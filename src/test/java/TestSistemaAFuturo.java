@@ -15,7 +15,7 @@ public class TestSistemaAFuturo {
     @Test
     public void testInit() {
 
-        Assertions.assertEquals(Retorno.ok(), sistema.inicializarSistema(15));
+        Assertions.assertEquals(Retorno.ok(), sistema.inicializarSistema(6));
 
         //pruebas nuestras
         Assertions.assertEquals(Retorno.error1("Error1").getResultado(), sistema.inicializarSistema(5).getResultado());
@@ -40,6 +40,15 @@ public class TestSistemaAFuturo {
         Assertions.assertEquals(Retorno.ok().getResultado(), sistema.listarJugadoresPorCedulaAscendente().getResultado());
         Assertions.assertEquals(Retorno.ok().getResultado(), sistema.listarJugadoresPorCedulaDescendente().getResultado());
 
+        Assertions.assertEquals(Retorno.ok().getResultado(), sistema.registrarCentroUrbano("aa","C1").getResultado());
+        Assertions.assertEquals(Retorno.ok().getResultado(), sistema.registrarCentroUrbano("aa1","C1").getResultado());
+        Assertions.assertEquals(Retorno.ok().getResultado(), sistema.registrarCentroUrbano("aa2","C1").getResultado());
+        Assertions.assertEquals(Retorno.ok().getResultado(), sistema.registrarCentroUrbano("aa3","C1").getResultado());
+        Assertions.assertEquals(Retorno.ok().getResultado(), sistema.registrarCentroUrbano("aa4","C1").getResultado());
+        Assertions.assertEquals(Retorno.error3("No esta").getResultado(), sistema.registrarCentroUrbano("aa","C1").getResultado());
+        Assertions.assertEquals(Retorno.error2("Vacio").getResultado(), sistema.registrarCentroUrbano("","C1").getResultado());
+        Assertions.assertEquals(Retorno.ok().getResultado(), sistema.registrarCentroUrbano("aa5","C1").getResultado());
+        Assertions.assertEquals(Retorno.error1("No esta").getResultado(), sistema.registrarCentroUrbano("aa7","C1").getResultado());
 
         System.out.println("Ver");
 
