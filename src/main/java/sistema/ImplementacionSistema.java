@@ -35,6 +35,7 @@ public class ImplementacionSistema implements Sistema {
                     arbolJugadores.insertar(nuevoJugador);
                     return Retorno.ok();
                 }else{
+
                     return Retorno.error3("Ya existe un jugador registrado con esa cédula.");
                 }
             }else{
