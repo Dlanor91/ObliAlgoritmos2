@@ -1,4 +1,4 @@
-package dominio;
+package dominio.Arbol;
 
 public class NodoGenArbol<T> {
     private T dato;

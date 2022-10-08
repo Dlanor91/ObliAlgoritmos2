@@ -1,9 +1,9 @@
 package sistema;
 
-import dominio.ABB;
+import dominio.Arbol.ABB;
 import dominio.Jugador;
-import dominio.ListaGen;
-import dominio.Tupla;
+import dominio.Lista.ListaGen;
+import dominio.Arbol.Tupla;
 import interfaz.*;
 
 public class ImplementacionSistema implements Sistema {

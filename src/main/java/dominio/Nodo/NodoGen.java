@@ -1,10 +1,10 @@
-package dominio;
+package dominio.Nodo;
 
-public class NodoGenLista<T> {
+public class NodoGen<T> {
     private T dato;
-    NodoGenLista<T> siguiente;
+    NodoGen<T> siguiente;
 
-    public NodoGenLista(T dato) {
+    public NodoGen(T dato) {
         this.dato = dato;
         this.siguiente = null;
     }
@@ -17,11 +17,11 @@ public class NodoGenLista<T> {
         this.dato = dato;
     }
 
-    public NodoGenLista<T> getSiguiente() {
+    public NodoGen<T> getSiguiente() {
         return siguiente;
     }
 
-    public void setSiguiente(NodoGenLista<T> siguiente) {
+    public void setSiguiente(NodoGen<T> siguiente) {
         this.siguiente = siguiente;
     }
 }
