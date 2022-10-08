@@ -1,4 +1,4 @@
-package dominio;
+package dominio.Arbol;
 
 public class Tupla<T> {
     public T dato;
