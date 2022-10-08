@@ -19,13 +19,13 @@ public class ABB<T extends Comparable<T>> {
     }
 
     private void insertarRec(NodoGenArbol<T> nodo, T dato) {
-        if (dato.compareTo(nodo.getDato())<0) {
+        if (dato.compareTo(nodo.getDato()) < 0) {
             if (nodo.getIzq() == null) {
                 nodo.setIzq(new NodoGenArbol<>(dato));
             } else {
                 insertarRec(nodo.getIzq(), dato);
             }
-        } else if (dato.compareTo(nodo.getDato())>0) {
+        } else if (dato.compareTo(nodo.getDato()) > 0) {
             if (nodo.getDer() == null) {
                 nodo.setDer(new NodoGenArbol<>(dato));
             } else {
@@ -36,66 +36,68 @@ public class ABB<T extends Comparable<T>> {
     }
 
     //In Order
-    public ListaGen<T> listarAscendente(){
+    public ListaGen<T> listarAscendente() {
         ListaGen<T> nuevaLista = new ListaGen<>();
-        listarAscendente(raiz,nuevaLista);
+        listarAscendente(raiz, nuevaLista);
         return nuevaLista;
     }
 
-    private void listarAscendente(NodoGenArbol<T> nodo,ListaGen<T> nuevaLista) {
-        if(nodo != null){
-            listarAscendente(nodo.getIzq(),nuevaLista);
-            nuevaLista.agregarAlFinal((T)nodo.getDato());
-            listarAscendente(nodo.getDer(),nuevaLista);
+    private void listarAscendente(NodoGenArbol<T> nodo, ListaGen<T> nuevaLista) {
+        if (nodo != null) {
+            listarAscendente(nodo.getIzq(), nuevaLista);
+            nuevaLista.agregarAlFinal((T) nodo.getDato());
+            listarAscendente(nodo.getDer(), nuevaLista);
         }
     }
 
-    public ListaGen listarDescendente(){
+    public ListaGen listarDescendente() {
         ListaGen<T> nuevaLista = new ListaGen<>();
-        listarDescendente(this.raiz,nuevaLista);
+        listarDescendente(this.raiz, nuevaLista);
         return nuevaLista;
     }
 
-    private void listarDescendente(NodoGenArbol<T> nodo,ListaGen<T> nuevaLista) {
-        if(nodo != null){
-            listarDescendente(nodo.getDer(),nuevaLista);
-            nuevaLista.agregarAlFinal((T)nodo.getDato());
-            listarDescendente(nodo.getIzq(),nuevaLista);
+    private void listarDescendente(NodoGenArbol<T> nodo, ListaGen<T> nuevaLista) {
+        if (nodo != null) {
+            listarDescendente(nodo.getDer(), nuevaLista);
+            nuevaLista.agregarAlFinal((T) nodo.getDato());
+            listarDescendente(nodo.getIzq(), nuevaLista);
         }
     }
 
-    public boolean pertenece(T dato){
-        return pertenece(dato,raiz);
+    public boolean pertenece(T dato) {
+        return pertenece(dato, raiz);
     }
 
-   private boolean pertenece(T dato, NodoGenArbol<T> nodo) {
-      if(nodo == null){
-         return false;
-      }else if(dato.compareTo((T) nodo.getDato())==0){
-           return true;
-       }else{
-           if(dato.compareTo((T) nodo.getDato())<0){
-              return pertenece(dato,nodo.getIzq());
-          }else{
-               return pertenece(dato,nodo.getDer());
+    private boolean pertenece(T dato, NodoGenArbol<T> nodo) {
+        if (nodo == null) {
+            return false;
+        } else if (dato.compareTo((T) nodo.getDato()) == 0) {
+            return true;
+        } else {
+            if (dato.compareTo((T) nodo.getDato()) < 0) {
+                return pertenece(dato, nodo.getIzq());
+            } else {
+                return pertenece(dato, nodo.getDer());
             }
         }
     }
-    public Tupla buscar(T dato){
-        Tupla parTupla = new Tupla<>(null,0);
-        buscar(dato,raiz,parTupla);
+
+    public Tupla buscar(T dato) {
+        Tupla parTupla = new Tupla<>(null, 0);
+        buscar(dato, raiz, parTupla);
         return parTupla;
     }
-    private void buscar(T dato, NodoGenArbol<T> nodo,Tupla nuevaTupla) {
+
+    private void buscar(T dato, NodoGenArbol<T> nodo, Tupla nuevaTupla) {
         if (nodo != null && nuevaTupla.dato == null) {
             nuevaTupla.cantidad++;
-            if (dato.compareTo(nodo.getDato())==0) {
+            if (dato.compareTo(nodo.getDato()) == 0) {
                 nuevaTupla.dato = nodo.getDato();
             } else {
                 if (dato.compareTo((T) nodo.getDato()) < 0) {
-                    buscar(dato, nodo.getIzq(),nuevaTupla);
+                    buscar(dato, nodo.getIzq(), nuevaTupla);
                 } else {
-                    buscar(dato, nodo.getDer(),nuevaTupla);
+                    buscar(dato, nodo.getDer(), nuevaTupla);
                 }
             }
         }
