@@ -5,6 +5,7 @@ import dominio.Cola.Cola;
 import dominio.Cola.ColaImp;
 import dominio.Lista.Lista;
 import dominio.Lista.ListaGen;
+import interfaz.EstadoCamino;
 
 public class Grafo {
 
@@ -12,24 +13,24 @@ public class Grafo {
     private int tope;
     private int cantidad;
     private CentroUrbano[] vertices;
-    private Arista[][] matAdyacentes; //matriz de adyacentes
+    private Camino[][] matAdyacentes; //matriz de adyacentes
 
     public Grafo(int unTope, boolean esDirigido) {
         this.tope = unTope;
         this.cantidad = 0;
         this.vertices = new CentroUrbano[unTope];
-        this.matAdyacentes = new Arista[unTope][unTope];
+        this.matAdyacentes = new Camino[unTope][unTope];
 
         if (esDirigido) {
             for (int i = 0; i < this.tope; i++) {
                 for (int j = 0; j < this.tope; j++) {
-                    this.matAdyacentes[i][j] = new Arista(); //no se hace mas en otro lugar
+                    this.matAdyacentes[i][j] = new Camino(); //no se hace mas en otro lugar
                 }
             }
         } else {
             for (int i = 0; i < this.tope; i++) {
                 for (int j = i; j < this.tope; j++) {
-                    this.matAdyacentes[i][j] = new Arista();
+                    this.matAdyacentes[i][j] = new Camino();
                     this.matAdyacentes[j][i] = this.matAdyacentes[i][j];
 
                 }
@@ -90,15 +91,18 @@ public class Grafo {
     }
 
     // existeVertice(origen) && existeVertice(destino) && !existeArista
-    public void agregarArista(CentroUrbano origen, CentroUrbano destino, int peso) {
+    public void agregarArista(CentroUrbano origen, CentroUrbano destino, double costo, double tiempo, double kms, EstadoCamino estadoDelCamino) {
         int posOrigen = obtenerPos(origen);
         int posDestino = obtenerPos(destino);
         matAdyacentes[posOrigen][posDestino].setExiste(true);
-        matAdyacentes[posOrigen][posDestino].setPeso(peso);
+        matAdyacentes[posOrigen][posDestino].setCosto(costo);
+        matAdyacentes[posOrigen][posDestino].setTiempo(tiempo);
+        matAdyacentes[posOrigen][posDestino].setKms(kms);
+        matAdyacentes[posOrigen][posDestino].setEstadoDelCamino(estadoDelCamino);
     }
 
     // existeVertice(origen) && existeVertice(destino)
-    public boolean existerArista(CentroUrbano origen, CentroUrbano destino) {
+    public boolean existeArista(CentroUrbano origen, CentroUrbano destino) {
         int posOrigen = obtenerPos(origen);
         int posDestino = obtenerPos(destino);
         return matAdyacentes[posOrigen][posDestino].isExiste();

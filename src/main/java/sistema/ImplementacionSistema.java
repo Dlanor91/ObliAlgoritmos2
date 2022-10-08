@@ -4,6 +4,7 @@ import dominio.Arbol.ABB;
 import dominio.Arbol.Tupla;
 
 import dominio.CentroUrbano;
+import dominio.Grafo.Camino;
 import dominio.Grafo.Grafo;
 import dominio.Jugador;
 import dominio.Lista.ListaGen;
@@ -124,9 +125,33 @@ public class ImplementacionSistema implements Sistema {
         }
     }
 
+    //Ejercicio 10
     @Override
     public Retorno registrarCamino(String codigoCentroOrigen, String codigoCentroDestino, double costo, double tiempo, double kilometros, EstadoCamino estadoDelCamino) {
-        return Retorno.noImplementada();
+        if (Camino.validar(costo, tiempo, kilometros)) {
+            if (!codigoCentroOrigen.isEmpty() && !codigoCentroDestino.isEmpty() && Camino.validar(estadoDelCamino)) {
+                CentroUrbano nuevoCUOrigen = new CentroUrbano(codigoCentroOrigen);
+                if (grafoCentrosUrbanos.existeVertice(nuevoCUOrigen)) {
+                    CentroUrbano nuevoCUDestino = new CentroUrbano(codigoCentroDestino);
+                    if (grafoCentrosUrbanos.existeVertice(nuevoCUDestino)) {
+                        if(!grafoCentrosUrbanos.existeArista(nuevoCUOrigen,nuevoCUDestino)){
+                            grafoCentrosUrbanos.agregarArista(nuevoCUOrigen,nuevoCUDestino,costo,tiempo,kilometros,estadoDelCamino);
+                            return Retorno.ok();
+                        }else{
+                            return Retorno.error5("Ya existe un camino entre el origen y el destino.");
+                        }
+                    }else{
+                        return Retorno.error4("No existe el centro de destino.");
+                    }
+                } else {
+                    return Retorno.error3("No existe el centro de origen.");
+                }
+            } else {
+                return Retorno.error2("Alguno de los parámetros String o enum es vacío o null.");
+            }
+        } else {
+            return Retorno.error1("Alguno de los parámetros double es menor o igual a 0.");
+        }
     }
 
     @Override
