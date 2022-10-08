@@ -59,6 +59,9 @@ public class TestSistemaAFuturo {
         Assertions.assertEquals(Retorno.error3("No esta").getResultado(), sistema.registrarCamino("aa22","aa4",12,23,2, EstadoCamino.BUENO).getResultado());
         Assertions.assertEquals(Retorno.error4("No esta").getResultado(), sistema.registrarCamino("aa2","aa44",12,23,2, EstadoCamino.BUENO).getResultado());
 
+        Assertions.assertEquals(Retorno.ok().getResultado(), sistema.actualizarCamino("aa","aa1",12,23,7, EstadoCamino.MALO).getResultado());
+        Assertions.assertEquals(Retorno.error5("No esta").getResultado(), sistema.actualizarCamino("aa1","aa4",12,23,2, EstadoCamino.EXCELENTE).getResultado());
+
 
 
 
