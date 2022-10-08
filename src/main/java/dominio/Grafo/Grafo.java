@@ -1,5 +1,6 @@
 package dominio.Grafo;
 
+import dominio.CentroUrbano;
 import dominio.Cola.Cola;
 import dominio.Cola.ColaImp;
 import dominio.Lista.Lista;
@@ -10,13 +11,13 @@ public class Grafo {
     //Definir atributos
     private int tope;
     private int cantidad;
-    private String[] vertices;
+    private CentroUrbano[] vertices;
     private Arista[][] matAdyacentes; //matriz de adyacentes
 
     public Grafo(int unTope, boolean esDirigido) {
         this.tope = unTope;
         this.cantidad = 0;
-        this.vertices = new String[unTope];
+        this.vertices = new CentroUrbano[unTope];
         this.matAdyacentes = new Arista[unTope][unTope];
 
         if (esDirigido) {
@@ -54,7 +55,7 @@ public class Grafo {
         return -1;
     }
 
-    private int obtenerPos(String vert) {
+    private int obtenerPos(CentroUrbano vert) {
         for (int i = 0; i < this.tope; i++) {
             if (this.vertices[i] != null) {
                 if (this.vertices[i].equals(vert)) {
@@ -66,14 +67,14 @@ public class Grafo {
     }
 
     // PRE: !esLleno && !existeVertice
-    public void agregarVertice(String vert) {
+    public void agregarVertice(CentroUrbano vert) {
         int pos = obtenerPosLibre();
         this.vertices[pos] = vert;
         this.cantidad++;
     }
 
     // PRE: existeVertice
-    public void borrarVertice(String vert) {
+    public void borrarVertice(CentroUrbano vert) {
         Lista<String> retorno = new ListaGen<>();
         int pos = obtenerPos(vert);
         for (int k = 0; k < tope; k++) {
@@ -84,12 +85,12 @@ public class Grafo {
         this.cantidad--;
     }
 
-    public boolean existeVertice(String vert) {
+    public boolean existeVertice(CentroUrbano vert) {
         return obtenerPos(vert) != -1;
     }
 
     // existeVertice(origen) && existeVertice(destino) && !existeArista
-    public void agregarArista(String origen, String destino, int peso) {
+    public void agregarArista(CentroUrbano origen, CentroUrbano destino, int peso) {
         int posOrigen = obtenerPos(origen);
         int posDestino = obtenerPos(destino);
         matAdyacentes[posOrigen][posDestino].setExiste(true);
@@ -97,21 +98,21 @@ public class Grafo {
     }
 
     // existeVertice(origen) && existeVertice(destino)
-    public boolean existerArista(String origen, String destino) {
+    public boolean existerArista(CentroUrbano origen, CentroUrbano destino) {
         int posOrigen = obtenerPos(origen);
         int posDestino = obtenerPos(destino);
         return matAdyacentes[posOrigen][posDestino].isExiste();
     }
 
     // existeVertice(origen) && existeVertice(destino) && existeArista
-    public void borrarArista(String origen, String destino) {
+    public void borrarArista(CentroUrbano origen, CentroUrbano destino) {
         int posOrigen = obtenerPos(origen);
         int posDestino = obtenerPos(destino);
         matAdyacentes[posOrigen][posDestino].setExiste(false);
     }
 
-    public Lista<String> verticesAdyacentes(String vert) {
-        Lista<String> retorno = new ListaGen<>();
+    public Lista<CentroUrbano> verticesAdyacentes(CentroUrbano vert) {
+        Lista<CentroUrbano> retorno = new ListaGen<>();
         int pos = obtenerPos(vert);
         for (int i = 0; i < tope; i++) {
             if (this.matAdyacentes[pos][i].isExiste()) {
@@ -122,8 +123,8 @@ public class Grafo {
     }
 
     // Pre: existeVertice(vert)
-    public Lista<String> verticesIncidentes(String vert) {
-        Lista<String> retorno = new ListaGen<>();
+    public Lista<CentroUrbano> verticesIncidentes(CentroUrbano vert) {
+        Lista<CentroUrbano> retorno = new ListaGen<>();
         int pos = obtenerPos(vert);
         for (int i = 0; i < tope; i++) {
             if (this.matAdyacentes[i][pos].isExiste()) {
@@ -134,9 +135,9 @@ public class Grafo {
     }
 
     //Pre: existeVertice(vert)
-    public void dfs(String vert) {
+    public void dfs(CentroUrbano vert) {
         boolean[] visitados = new boolean[tope]; // Inicia todo en false
-        Lista<String> retorno = new ListaGen<>();
+        Lista<CentroUrbano> retorno = new ListaGen<>();
         int pos = obtenerPos(vert);
         dfsRec(pos, visitados);
 
@@ -159,7 +160,7 @@ public class Grafo {
 
     //visitando cuando desencolo puedo encolar elementos repetidos
     //Pre: existeVertice(vert)
-    public void bfs(String vert) {
+    public void bfs(CentroUrbano vert) {
         boolean[] visitados = new boolean[tope];
         int inicio = obtenerPos(vert);
         Cola<Integer> cola = new ColaImp<>();
@@ -182,7 +183,7 @@ public class Grafo {
     }
 
     //Marcando como visitado al encolar no encolo elementos repetidos
-    public void bfs2(String vert) {
+    public void bfs2(CentroUrbano vert) {
         boolean[] visitados = new boolean[tope];
         int inicio = obtenerPos(vert);
         Cola<Integer> cola = new ColaImp<>();
