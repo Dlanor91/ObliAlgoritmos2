@@ -1,5 +1,7 @@
-package dominio;
+package dominio.Arbol;
 
+
+import dominio.Lista.ListaGen;
 
 public class ABB<T extends Comparable<T>> {
 
