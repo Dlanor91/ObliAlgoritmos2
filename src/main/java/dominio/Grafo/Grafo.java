@@ -9,7 +9,6 @@ import interfaz.EstadoCamino;
 
 public class Grafo {
 
-    //Definir atributos
     private int tope;
     private int cantidad;
     private CentroUrbano[] vertices;
@@ -106,6 +105,20 @@ public class Grafo {
         int posOrigen = obtenerPos(origen);
         int posDestino = obtenerPos(destino);
         return matAdyacentes[posOrigen][posDestino].isExiste();
+    }
+
+    public boolean actualizarArista(CentroUrbano origen, CentroUrbano destino, double costo, double tiempo, double kms, EstadoCamino estadoDelCamino)
+    {
+        if(existeArista(origen, destino)){
+            int posOrigen = obtenerPos(origen);
+            int posDestino = obtenerPos(destino);
+            matAdyacentes[posOrigen][posDestino].setCosto(costo);
+            matAdyacentes[posOrigen][posDestino].setTiempo(tiempo);
+            matAdyacentes[posOrigen][posDestino].setKms(kms);
+            matAdyacentes[posOrigen][posDestino].setEstadoDelCamino(estadoDelCamino);
+            return true;
+        }
+        return false;
     }
 
     // existeVertice(origen) && existeVertice(destino) && existeArista

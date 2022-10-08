@@ -125,7 +125,7 @@ public class ImplementacionSistema implements Sistema {
         }
     }
 
-    //Ejercicio 10
+    //Ejercicio 10 - Listo
     @Override
     public Retorno registrarCamino(String codigoCentroOrigen, String codigoCentroDestino, double costo, double tiempo, double kilometros, EstadoCamino estadoDelCamino) {
         if (Camino.validar(costo, tiempo, kilometros)) {
@@ -134,13 +134,13 @@ public class ImplementacionSistema implements Sistema {
                 if (grafoCentrosUrbanos.existeVertice(nuevoCUOrigen)) {
                     CentroUrbano nuevoCUDestino = new CentroUrbano(codigoCentroDestino);
                     if (grafoCentrosUrbanos.existeVertice(nuevoCUDestino)) {
-                        if(!grafoCentrosUrbanos.existeArista(nuevoCUOrigen,nuevoCUDestino)){
-                            grafoCentrosUrbanos.agregarArista(nuevoCUOrigen,nuevoCUDestino,costo,tiempo,kilometros,estadoDelCamino);
+                        if (!grafoCentrosUrbanos.existeArista(nuevoCUOrigen, nuevoCUDestino)) {
+                            grafoCentrosUrbanos.agregarArista(nuevoCUOrigen, nuevoCUDestino, costo, tiempo, kilometros, estadoDelCamino);
                             return Retorno.ok();
-                        }else{
+                        } else {
                             return Retorno.error5("Ya existe un camino entre el origen y el destino.");
                         }
-                    }else{
+                    } else {
                         return Retorno.error4("No existe el centro de destino.");
                     }
                 } else {
@@ -154,9 +154,33 @@ public class ImplementacionSistema implements Sistema {
         }
     }
 
+    //Ejercicio 11
     @Override
     public Retorno actualizarCamino(String codigoCentroOrigen, String codigoCentroDestino, double costo, double tiempo, double kilometros, EstadoCamino estadoDelCamino) {
-        return Retorno.noImplementada();
+        if (Camino.validar(costo, tiempo, kilometros)) {
+            if (!codigoCentroOrigen.isEmpty() && !codigoCentroDestino.isEmpty() && Camino.validar(estadoDelCamino)) {
+                CentroUrbano nuevoCUOrigen = new CentroUrbano(codigoCentroOrigen);
+                if (grafoCentrosUrbanos.existeVertice(nuevoCUOrigen)) {
+                    CentroUrbano nuevoCUDestino = new CentroUrbano(codigoCentroDestino);
+                    if (grafoCentrosUrbanos.existeVertice(nuevoCUDestino)) {
+                        if (grafoCentrosUrbanos.existeArista(nuevoCUOrigen, nuevoCUDestino)) {
+                            grafoCentrosUrbanos.actualizarArista(nuevoCUOrigen, nuevoCUDestino, costo, tiempo, kilometros, estadoDelCamino);
+                            return Retorno.ok();
+                        } else {
+                            return Retorno.error5("No existe un camino entre el origen y el destino.");
+                        }
+                    } else {
+                        return Retorno.error4("No existe el centro de destino.");
+                    }
+                } else {
+                    return Retorno.error3("No existe el centro de origen.");
+                }
+            } else {
+                return Retorno.error2("Alguno de los parámetros String o enum es vacío o null.");
+            }
+        } else {
+            return Retorno.error1("Alguno de los parámetros double es menor o igual a 0.");
+        }
     }
 
     @Override
