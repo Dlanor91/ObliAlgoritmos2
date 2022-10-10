@@ -75,7 +75,6 @@ public class Grafo {
 
     // PRE: existeVertice
     public void borrarVertice(CentroUrbano vert) {
-        Lista<String> retorno = new ListaGen<>();
         int pos = obtenerPos(vert);
         for (int k = 0; k < tope; k++) {
             this.matAdyacentes[pos][k].setExiste(false);//aqui borro los adyacentes
@@ -87,6 +86,18 @@ public class Grafo {
 
     public boolean existeVertice(CentroUrbano vert) {
         return obtenerPos(vert) != -1;
+    }
+
+    public CentroUrbano obtenerVertice(String codigo) {
+        CentroUrbano nuevo = null;
+        for (int i = 0; i < this.tope; i++) {
+            if (this.vertices[i] != null) {
+                if (this.vertices[i].getCodigo().equals(codigo)) {
+                    return nuevo = this.vertices[i];
+                }
+            }
+        }
+        return nuevo;
     }
 
     // existeVertice(origen) && existeVertice(destino) && !existeArista
@@ -161,10 +172,6 @@ public class Grafo {
     }
 
     private void dfsRec(int pos, boolean[] visitados) {
-        //Los pasos son
-        //1ero imprimir
-        //2do visitar
-        //3ero por cada adyacente  no visitado llamar recursivo
         System.out.println(vertices[pos]);
         visitados[pos] = true;
         for (int i = 0; i < tope; i++) {
@@ -174,6 +181,24 @@ public class Grafo {
         }
 
     }
+
+    public void dfsSaltos(CentroUrbano vert,int cantidad) {
+        boolean[] visitados = new boolean[tope]; // Inicia todo en false
+        int pos = obtenerPos(vert);
+        dfsSaltos(pos, visitados,cantidad);
+
+    }
+    private void dfsSaltos(int pos, boolean[] visitados,int cantidad) {
+        System.out.print(vertices[pos]+"|");
+        visitados[pos] = true;
+        for (int i = 0; i <= cantidad; i++) {
+            if (this.matAdyacentes[pos][i].isExiste() && !visitados[i]) {
+                dfsSaltos(i, visitados,cantidad);
+            }
+        }
+
+    }
+
 
     //visitando cuando desencolo puedo encolar elementos repetidos
     //Pre: existeVertice(vert)

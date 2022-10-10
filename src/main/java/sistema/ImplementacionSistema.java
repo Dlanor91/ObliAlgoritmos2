@@ -183,9 +183,20 @@ public class ImplementacionSistema implements Sistema {
         }
     }
 
+    //Ejercicio 11 - No terminado
     @Override
     public Retorno listadoCentrosCantDeSaltos(String codigoCentroOrigen, int cantidad) {
-        return Retorno.noImplementada();
+        if (cantidad >= 0) {
+            CentroUrbano buscarCU = grafoCentrosUrbanos.obtenerVertice(codigoCentroOrigen);
+            if (buscarCU != null) {
+                grafoCentrosUrbanos.dfsSaltos(buscarCU,cantidad);
+                return Retorno.ok();
+            }else{
+                return Retorno.error2("El centro no está registrado en el sistema.");
+            }
+        } else {
+            return Retorno.error1("La cantidad es menor que cero.");
+        }
     }
 
     @Override

@@ -40,4 +40,9 @@ public class CentroUrbano {
     public boolean equals(Object o){
         return ((CentroUrbano) o).codigo.equals(this.codigo);
     }
+
+    @Override
+    public String toString() {
+        return codigo + ";" + nombre;
+    }
 }
