@@ -27,9 +27,49 @@ public class ImplementacionSistema implements Sistema {
         return Retorno.error1("maxCentros es menor o igual a 5.");
     }
 
+    //Ejercicio 2 - Listo
     @Override
     public Retorno explorarCentroUrbano(boolean[] correctas, int[] puntajes, int minimo) {
-        return Retorno.noImplementada();
+        int totalPuntos = 0;
+        int respuestasCorrectas = 0;
+        String resultadoExploracion = "No pasa";
+        if (correctas != null && puntajes != null) {
+            if (correctas.length >= 3 && puntajes.length >= 3) {
+                if(correctas.length == puntajes.length) {
+                    if(minimo>0) {
+                        for (int i = 0; i < correctas.length; i++) {
+                            if (correctas[i]) {
+                                respuestasCorrectas++;
+                                totalPuntos += puntajes[i];
+                                if (respuestasCorrectas == 3) {
+                                    totalPuntos += 3;
+                                }
+                                if (respuestasCorrectas == 4) {
+                                    totalPuntos += 5;
+                                }
+                                if (respuestasCorrectas >= 5) {
+                                    totalPuntos += 8;
+                                }
+                            } else {
+                                respuestasCorrectas = 0;
+                            }
+                        }
+                        if (totalPuntos >= minimo) resultadoExploracion = "Pasa";
+                        Retorno retorno = new Retorno(Retorno.Resultado.OK, totalPuntos, resultadoExploracion);
+                        return retorno;
+                    }else{
+                        return Retorno.error4("El mínimo es menor o igual a cero.");
+                    }
+                }
+                else{
+                    return Retorno.error3("Los arrays no tienen la misma cantidad de elementos.");
+                }
+            } else {
+                return Retorno.error2("Los arrays tienen menos de 3 elementos.");
+            }
+        } else {
+            return Retorno.error1("Alguno de los parámetros es null.");
+        }
     }
 
     //Ejercicio 3 - Listo
@@ -54,6 +94,7 @@ public class ImplementacionSistema implements Sistema {
 
     }
 
+    //Ejercicio 4
     @Override
     public Retorno filtrarJugadores(Consulta consulta) {
         return Retorno.noImplementada();
@@ -183,7 +224,7 @@ public class ImplementacionSistema implements Sistema {
         }
     }
 
-    //Ejercicio 12 - No terminado
+    //Ejercicio 12 - Listo
     @Override
     public Retorno listadoCentrosCantDeSaltos(String codigoCentroOrigen, int cantidad) {
         if (cantidad >= 0) {
@@ -192,7 +233,7 @@ public class ImplementacionSistema implements Sistema {
                 ABB<CentroUrbano> nuevoArbol = grafoCentrosUrbanos.bfsSinRepetir(buscarCU, cantidad);
                 Retorno retorno = new Retorno(Retorno.Resultado.OK, 0, nuevoArbol.listarAscendente().toString());
                 return retorno;
-            }else{
+            } else {
                 return Retorno.error2("El centro no está registrado en el sistema.");
             }
         } else {
