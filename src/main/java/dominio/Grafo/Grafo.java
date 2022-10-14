@@ -1,5 +1,7 @@
 package dominio.Grafo;
 
+import dominio.Arbol.ABB;
+import dominio.Arbol.Tupla;
 import dominio.CentroUrbano;
 import dominio.Cola.Cola;
 import dominio.Cola.ColaImp;
@@ -225,21 +227,32 @@ public class Grafo {
     }
 
     //Marcando como visitado al encolar no encolo elementos repetidos
-    public void bfs2(CentroUrbano vert) {
+    public ABB<CentroUrbano> bfsSinRepetir(CentroUrbano vert,int nivel) {
         boolean[] visitados = new boolean[tope];
         int inicio = obtenerPos(vert);
         Cola<Integer> cola = new ColaImp<>();
+        ColaImp<Tupla> colaNivel = new ColaImp<>();
         cola.encolar(inicio);
         visitados[inicio] = true;
-        while (!cola.esVacia()) {
+        ABB<CentroUrbano> nuevoArbolCentroUrbano = new ABB<>();
+        int cant =0;
+        Tupla control = new Tupla<>(inicio,cant);
+        colaNivel.encolar(control);
+        while (!colaNivel.esVacia()&& colaNivel.getInicio().getDato().getCantidad()<=nivel) {
             int pos = cola.desencolar();
-            System.out.println(vertices[pos]);
+            Tupla t = colaNivel.desencolar();
+            nuevoArbolCentroUrbano.insertar(vertices[pos]);
+            //System.out.println(vertices[pos]);
             for (int i = 0; i < tope; i++) {
                 if (this.matAdyacentes[pos][i].isExiste() && !visitados[i]) {
                     cola.encolar(i);
                     visitados[i] = true;
+                    control = new Tupla<>(i,cant);
+                    control.setCantidad(t.getCantidad() + 1);
+                    colaNivel.encolar(control);
                 }
             }
         }
+        return nuevoArbolCentroUrbano;
     }
 }
