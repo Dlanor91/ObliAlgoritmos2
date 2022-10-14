@@ -190,8 +190,8 @@ public class ImplementacionSistema implements Sistema {
             CentroUrbano buscarCU = grafoCentrosUrbanos.obtenerVertice(codigoCentroOrigen);
             if (buscarCU != null) {
                 ABB<CentroUrbano> nuevoArbol = grafoCentrosUrbanos.bfsSinRepetir(buscarCU, cantidad);
-                nuevoArbol.listarAscendente();
-                return Retorno.ok();
+                Retorno retorno = new Retorno(Retorno.Resultado.OK, 0, nuevoArbol.listarAscendente().toString());
+                return retorno;
             }else{
                 return Retorno.error2("El centro no está registrado en el sistema.");
             }

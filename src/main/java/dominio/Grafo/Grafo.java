@@ -240,7 +240,8 @@ public class Grafo {
         colaNivel.encolar(control);
         while (!colaNivel.esVacia()&& colaNivel.getInicio().getDato().getCantidad()<=nivel) {
             int pos = cola.desencolar();
-            Tupla t = colaNivel.desencolar();
+            int posCola = colaNivel.desencolar().getCantidad();
+            //Tupla t = colaNivel.desencolar();
             nuevoArbolCentroUrbano.insertar(vertices[pos]);
             //System.out.println(vertices[pos]);
             for (int i = 0; i < tope; i++) {
@@ -248,7 +249,8 @@ public class Grafo {
                     cola.encolar(i);
                     visitados[i] = true;
                     control = new Tupla<>(i,cant);
-                    control.setCantidad(t.getCantidad() + 1);
+                    control.setCantidad(posCola + 1);
+                    //control.setCantidad(t.getCantidad() + 1);
                     colaNivel.encolar(control);
                 }
             }
