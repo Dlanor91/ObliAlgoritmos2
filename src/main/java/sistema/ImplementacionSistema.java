@@ -64,8 +64,8 @@ public class ImplementacionSistema implements Sistema {
     public Retorno buscarJugador(String ci) {
         if (!ci.isEmpty() && Jugador.validarCedula(ci)) {
             Tupla jugadorEncontrado = arbolJugadores.buscar(new Jugador(ci));
-            if (jugadorEncontrado.dato != null) {
-                Retorno retorno = new Retorno(Retorno.Resultado.OK, jugadorEncontrado.cantidad, jugadorEncontrado.dato.toString());
+            if (jugadorEncontrado.getDato() != null) {
+                Retorno retorno = new Retorno(Retorno.Resultado.OK, jugadorEncontrado.getCantidad(), jugadorEncontrado.getDato().toString());
                 return retorno;
             } else {
                 return Retorno.error2("No existe un jugador registrado con esa cédula.");
@@ -183,9 +183,21 @@ public class ImplementacionSistema implements Sistema {
         }
     }
 
+    //Ejercicio 12 - No terminado
     @Override
     public Retorno listadoCentrosCantDeSaltos(String codigoCentroOrigen, int cantidad) {
-        return Retorno.noImplementada();
+        if (cantidad >= 0) {
+            CentroUrbano buscarCU = grafoCentrosUrbanos.obtenerVertice(codigoCentroOrigen);
+            if (buscarCU != null) {
+                ABB<CentroUrbano> nuevoArbol = grafoCentrosUrbanos.bfsSinRepetir(buscarCU, cantidad);
+                Retorno retorno = new Retorno(Retorno.Resultado.OK, 0, nuevoArbol.listarAscendente().toString());
+                return retorno;
+            }else{
+                return Retorno.error2("El centro no está registrado en el sistema.");
+            }
+        } else {
+            return Retorno.error1("La cantidad es menor que cero.");
+        }
     }
 
     @Override

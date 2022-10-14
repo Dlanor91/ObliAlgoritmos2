@@ -91,10 +91,10 @@ public class ABB<T extends Comparable<T>> {
     }
 
     private void buscar(T dato, NodoGenArbol<T> nodo, Tupla nuevaTupla) {
-        if (nodo != null && nuevaTupla.dato == null) {
-            nuevaTupla.cantidad++;
+        if (nodo != null && nuevaTupla.getDato() == null) {
+            nuevaTupla.setCantidad(nuevaTupla.getCantidad()+1);
             if (dato.compareTo(nodo.getDato()) == 0) {
-                nuevaTupla.dato = nodo.getDato();
+                nuevaTupla.setDato(nodo.getDato());
             } else {
                 if (dato.compareTo((T) nodo.getDato()) < 0) {
                     buscar(dato, nodo.getIzq(), nuevaTupla);
