@@ -117,5 +117,10 @@ public class TestSistemaAFuturo {
         System.out.println("Ejercicio 14");
         Assertions.assertEquals(Retorno.ok().getResultado(), sistema.viajeCostoMinimoMonedas("aa5","aa6").getResultado());
         System.out.println(sistema.viajeCostoMinimoMonedas("aa5","aa6").getValorInteger());
+        Assertions.assertEquals(Retorno.error1("error").getResultado(), sistema.viajeCostoMinimoMonedas(null,"aa5").getResultado());
+        Assertions.assertEquals(Retorno.error1("error").getResultado(), sistema.viajeCostoMinimoMonedas("","aa5").getResultado());
+        Assertions.assertEquals(Retorno.error2("error").getResultado(), sistema.viajeCostoMinimoMonedas("aa","aa5").getResultado());
+        Assertions.assertEquals(Retorno.error3("error").getResultado(), sistema.viajeCostoMinimoMonedas("aa8","aa5").getResultado());
+        Assertions.assertEquals(Retorno.error4("error").getResultado(), sistema.viajeCostoMinimoMonedas("aa","aa8").getResultado());
     }
 }
