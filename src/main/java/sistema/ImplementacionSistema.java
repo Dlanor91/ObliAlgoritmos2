@@ -271,15 +271,57 @@ public class ImplementacionSistema implements Sistema {
         }
     }
 
-    //Ejercicio 13 - No implementado
+    //Ejercicio 13 - Incompleto
     @Override
     public Retorno viajeCostoMinimoKilometros(String codigoCentroOrigen, String codigoCentroDestino) {
-        return Retorno.noImplementada();
+        if (codigoCentroOrigen != null && !codigoCentroOrigen.isEmpty() && codigoCentroDestino != null && !codigoCentroDestino.isEmpty()) {
+            CentroUrbano codOrigen = grafoCentrosUrbanos.obtenerVertice(codigoCentroOrigen);
+            CentroUrbano codDestino = grafoCentrosUrbanos.obtenerVertice(codigoCentroDestino);
+            if (codOrigen != null) {
+                if (codDestino != null) {
+                    if(grafoCentrosUrbanos.bfsCamino(codOrigen,codDestino)){
+                        double costoKMS = grafoCentrosUrbanos.dijkstraKMS(codOrigen, codDestino);
+                        int costoIntKMS = (int) (costoKMS);
+                        return new Retorno(Retorno.Resultado.OK, costoIntKMS, "");
+                    }else{
+                        return Retorno.error2("No hay camino entre el origen y el destino.");
+                    }
+                } else {
+                    return Retorno.error4("No existe el Centro Urbano de Destino.");
+                }
+            } else {
+                return Retorno.error3("No existe el Centro Urbano de Origen.");
+            }
+
+        } else {
+            return Retorno.error1("Alguno de los códigos es vacío o null.");
+        }
     }
 
-    //Ejercicio 14 - No implementado
+    //Ejercicio 14 - Incompleto
     @Override
     public Retorno viajeCostoMinimoMonedas(String codigoCentroOrigen, String codigoCentroDestino) {
-        return Retorno.noImplementada();
+        if (codigoCentroOrigen != null && !codigoCentroOrigen.isEmpty() && codigoCentroDestino != null && !codigoCentroDestino.isEmpty()) {
+            CentroUrbano codOrigen = grafoCentrosUrbanos.obtenerVertice(codigoCentroOrigen);
+            CentroUrbano codDestino = grafoCentrosUrbanos.obtenerVertice(codigoCentroDestino);
+            if (codOrigen != null) {
+                if (codDestino != null) {
+                    if(grafoCentrosUrbanos.bfsCamino(codOrigen,codDestino)){
+                        double costoMonedas = grafoCentrosUrbanos.dijkstraCosto(codOrigen, codDestino);
+                        int costoIntMonedas = (int) (costoMonedas);
+                        return new Retorno(Retorno.Resultado.OK, costoIntMonedas, "");
+                    }else{
+                        return Retorno.error2("No hay camino entre el origen y el destino.");
+                    }
+                } else {
+                    return Retorno.error4("No existe el Centro Urbano de Destino.");
+                }
+            } else {
+                return Retorno.error3("No existe el Centro Urbano de Origen.");
+            }
+
+        } else {
+            return Retorno.error1("Alguno de los códigos es vacío o null.");
+        }
     }
 }

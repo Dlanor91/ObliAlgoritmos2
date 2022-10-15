@@ -63,20 +63,21 @@ public class TestSistemaAFuturo {
         Assertions.assertEquals(Retorno.error1("No esta").getResultado(), sistema.registrarCentroUrbano("aa","C0").getResultado());
 
 
-        Assertions.assertEquals(Retorno.ok().getResultado(), sistema.registrarCamino("aa","aa1",12,23,2, EstadoCamino.BUENO).getResultado());
-        Assertions.assertEquals(Retorno.ok().getResultado(), sistema.registrarCamino("aa2","aa4",12,23,2, EstadoCamino.EXCELENTE).getResultado());
-        Assertions.assertEquals(Retorno.ok().getResultado(), sistema.registrarCamino("aa1","aa2",12,23,2, EstadoCamino.EXCELENTE).getResultado());
-        Assertions.assertEquals(Retorno.ok().getResultado(), sistema.registrarCamino("aa5","aa1",12,23,2, EstadoCamino.EXCELENTE).getResultado());
-        Assertions.assertEquals(Retorno.ok().getResultado(), sistema.registrarCamino("aa5","aa3",12,23,2, EstadoCamino.EXCELENTE).getResultado());
-        Assertions.assertEquals(Retorno.ok().getResultado(), sistema.registrarCamino("aa3","aa6",12,23,2, EstadoCamino.EXCELENTE).getResultado());
-        Assertions.assertEquals(Retorno.ok().getResultado(), sistema.registrarCamino("aa2","aa6",12,23,2, EstadoCamino.EXCELENTE).getResultado());
+        Assertions.assertEquals(Retorno.ok().getResultado(), sistema.registrarCamino("aa","aa1",2,2.3,1.3, EstadoCamino.BUENO).getResultado());
+        Assertions.assertEquals(Retorno.ok().getResultado(), sistema.registrarCamino("aa2","aa4",1.4,1.8,0.9, EstadoCamino.EXCELENTE).getResultado());
+        Assertions.assertEquals(Retorno.ok().getResultado(), sistema.registrarCamino("aa1","aa2",1,3.3,2.4, EstadoCamino.BUENO).getResultado());
+        Assertions.assertEquals(Retorno.ok().getResultado(), sistema.registrarCamino("aa5","aa1",3,2.1,2, EstadoCamino.EXCELENTE).getResultado());
+        Assertions.assertEquals(Retorno.ok().getResultado(), sistema.registrarCamino("aa5","aa3",4,0.8,0.5, EstadoCamino.BUENO).getResultado());//malo
+        Assertions.assertEquals(Retorno.ok().getResultado(), sistema.registrarCamino("aa3","aa6",1.2,3.4,3.3, EstadoCamino.BUENO).getResultado());
+        Assertions.assertEquals(Retorno.ok().getResultado(), sistema.registrarCamino("aa2","aa6",0.8,3,1, EstadoCamino.MALO).getResultado());//malo
+        Assertions.assertEquals(Retorno.ok().getResultado(), sistema.registrarCamino("aa4","aa6",3.6,1,1.8, EstadoCamino.EXCELENTE).getResultado());
         Assertions.assertEquals(Retorno.error5("No esta").getResultado(), sistema.registrarCamino("aa2","aa4",12,23,2, EstadoCamino.EXCELENTE).getResultado());
         Assertions.assertEquals(Retorno.error1("No esta").getResultado(), sistema.registrarCamino("aa2","aa4",0,23,2, EstadoCamino.BUENO).getResultado());
         Assertions.assertEquals(Retorno.error2("No esta").getResultado(), sistema.registrarCamino("aa2","aa4",12,23,2, null).getResultado());
         Assertions.assertEquals(Retorno.error3("No esta").getResultado(), sistema.registrarCamino("aa22","aa4",12,23,2, EstadoCamino.BUENO).getResultado());
         Assertions.assertEquals(Retorno.error4("No esta").getResultado(), sistema.registrarCamino("aa2","aa44",12,23,2, EstadoCamino.BUENO).getResultado());
 
-        Assertions.assertEquals(Retorno.ok().getResultado(), sistema.actualizarCamino("aa","aa1",12,23,7, EstadoCamino.MALO).getResultado());
+        //Assertions.assertEquals(Retorno.ok().getResultado(), sistema.actualizarCamino("aa","aa1",12,23,7, EstadoCamino.MALO).getResultado());
         Assertions.assertEquals(Retorno.error5("No esta").getResultado(), sistema.actualizarCamino("aa1","aa4",12,23,2, EstadoCamino.EXCELENTE).getResultado());
 
         System.out.println("Ejercicio 12");
@@ -104,5 +105,17 @@ public class TestSistemaAFuturo {
         Assertions.assertEquals(Retorno.error4("No da").getResultado(), sistema.explorarCentroUrbano(lista,punt,0).getResultado());
         System.out.println(sistema.explorarCentroUrbano(lista,punt,min).getValorString() +" total:"+ sistema.explorarCentroUrbano(lista,punt,min).getValorInteger() );
 
+        System.out.println("Ejercicio 13");
+        Assertions.assertEquals(Retorno.ok().getResultado(), sistema.viajeCostoMinimoKilometros("aa5","aa6").getResultado());
+        System.out.println(sistema.viajeCostoMinimoKilometros("aa5","aa6").getValorInteger());
+        Assertions.assertEquals(Retorno.error1("error").getResultado(), sistema.viajeCostoMinimoKilometros(null,"aa5").getResultado());
+        Assertions.assertEquals(Retorno.error1("error").getResultado(), sistema.viajeCostoMinimoKilometros("","aa5").getResultado());
+        Assertions.assertEquals(Retorno.error2("error").getResultado(), sistema.viajeCostoMinimoKilometros("aa","aa5").getResultado());
+        Assertions.assertEquals(Retorno.error3("error").getResultado(), sistema.viajeCostoMinimoKilometros("aa8","aa5").getResultado());
+        Assertions.assertEquals(Retorno.error4("error").getResultado(), sistema.viajeCostoMinimoKilometros("aa","aa8").getResultado());
+
+        System.out.println("Ejercicio 14");
+        Assertions.assertEquals(Retorno.ok().getResultado(), sistema.viajeCostoMinimoMonedas("aa5","aa6").getResultado());
+        System.out.println(sistema.viajeCostoMinimoMonedas("aa5","aa6").getValorInteger());
     }
 }
