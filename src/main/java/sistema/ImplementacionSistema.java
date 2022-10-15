@@ -13,6 +13,10 @@ import interfaz.*;
 public class ImplementacionSistema implements Sistema {
     private ABB<Jugador> arbolJugadores;
     private Grafo grafoCentrosUrbanos;
+    private ListaGen<Jugador> listaJugadoresAvanzado;
+    private ListaGen<Jugador> listaJugadoresInicial;
+    private ListaGen<Jugador> listaJugadoresMedio;
+    private ListaGen<Jugador> listaJugadoresMonitor;
 
     //Ejercicio 1 - A medias
     @Override
@@ -21,13 +25,17 @@ public class ImplementacionSistema implements Sistema {
             //Todo lo que se inicialice seria aqui
             arbolJugadores = new ABB<>();
             grafoCentrosUrbanos = new Grafo(maxCentros, true);
+            listaJugadoresAvanzado = new ListaGen<>();
+            listaJugadoresInicial = new ListaGen<>();
+            listaJugadoresMedio = new ListaGen<>();
+            listaJugadoresMonitor = new ListaGen<>();
             return Retorno.ok();
         }
 
         return Retorno.error1("maxCentros es menor o igual a 5.");
     }
 
-    //Ejercicio 2 - Listo
+    //Ejercicio 2 - Listo (Sin probar)
     @Override
     public Retorno explorarCentroUrbano(boolean[] correctas, int[] puntajes, int minimo) {
         int totalPuntos = 0;
@@ -35,8 +43,8 @@ public class ImplementacionSistema implements Sistema {
         String resultadoExploracion = "No pasa";
         if (correctas != null && puntajes != null) {
             if (correctas.length >= 3 && puntajes.length >= 3) {
-                if(correctas.length == puntajes.length) {
-                    if(minimo>0) {
+                if (correctas.length == puntajes.length) {
+                    if (minimo > 0) {
                         for (int i = 0; i < correctas.length; i++) {
                             if (correctas[i]) {
                                 respuestasCorrectas++;
@@ -57,11 +65,10 @@ public class ImplementacionSistema implements Sistema {
                         if (totalPuntos >= minimo) resultadoExploracion = "Pasa";
                         Retorno retorno = new Retorno(Retorno.Resultado.OK, totalPuntos, resultadoExploracion);
                         return retorno;
-                    }else{
+                    } else {
                         return Retorno.error4("El mínimo es menor o igual a cero.");
                     }
-                }
-                else{
+                } else {
                     return Retorno.error3("Los arrays no tienen la misma cantidad de elementos.");
                 }
             } else {
@@ -80,7 +87,16 @@ public class ImplementacionSistema implements Sistema {
                 Jugador nuevoJugador = new Jugador(ci, nombre, edad, escuela, tipo);
                 if (!arbolJugadores.pertenece(nuevoJugador)) {
                     arbolJugadores.insertar(nuevoJugador);
-                    return Retorno.ok();
+                    if (nuevoJugador.getTipo().getIndice() == 0) { //Avanzado
+                        listaJugadoresAvanzado.agregarAlFinal(nuevoJugador);
+                    } else if (nuevoJugador.getTipo().getIndice() == 1) { //Medio
+                        listaJugadoresMedio.agregarAlFinal(nuevoJugador);
+                    } else if (nuevoJugador.getTipo().getIndice() == 2) { //Inicial
+                        listaJugadoresInicial.agregarAlFinal(nuevoJugador);
+                    } else { //Monitor
+                        listaJugadoresMonitor.agregarAlFinal(nuevoJugador);
+                    }
+                    return Retorno.ok("El jugador fue registrado exitosamente.");
                 } else {
 
                     return Retorno.error3("Ya existe un jugador registrado con esa cédula.");
@@ -94,7 +110,7 @@ public class ImplementacionSistema implements Sistema {
 
     }
 
-    //Ejercicio 4
+    //Ejercicio 4 - No implementado
     @Override
     public Retorno filtrarJugadores(Consulta consulta) {
         return Retorno.noImplementada();
@@ -141,9 +157,23 @@ public class ImplementacionSistema implements Sistema {
         return retorno;
     }
 
+    //Ejercicio 8 - Listo
     @Override
     public Retorno listarJugadoresPorTipo(TipoJugador unTipo) {
-        return Retorno.noImplementada();
+
+        if (unTipo != null) {
+            if (unTipo.getIndice() == 0) { //Avanzado
+                return new Retorno(Retorno.Resultado.OK, 0, listaJugadoresAvanzado.toString());
+            } else if (unTipo.getIndice() == 1) { //Medio
+                return new Retorno(Retorno.Resultado.OK, 0, listaJugadoresMedio.toString());
+            } else if (unTipo.getIndice() == 2) { //Inicial
+                return new Retorno(Retorno.Resultado.OK, 0, listaJugadoresInicial.toString());
+            } else { //Monitor
+                return new Retorno(Retorno.Resultado.OK, 0, listaJugadoresMonitor.toString());
+            }
+        } else {
+            return Retorno.error1("Tipo es null");
+        }
     }
 
     //Ejercicio 9 - Listo
@@ -241,11 +271,13 @@ public class ImplementacionSistema implements Sistema {
         }
     }
 
+    //Ejercicio 13 - No implementado
     @Override
     public Retorno viajeCostoMinimoKilometros(String codigoCentroOrigen, String codigoCentroDestino) {
         return Retorno.noImplementada();
     }
 
+    //Ejercicio 14 - No implementado
     @Override
     public Retorno viajeCostoMinimoMonedas(String codigoCentroOrigen, String codigoCentroDestino) {
         return Retorno.noImplementada();
