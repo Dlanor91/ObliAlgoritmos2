@@ -110,10 +110,16 @@ public class ImplementacionSistema implements Sistema {
 
     }
 
-    //Ejercicio 4 - No implementado
+    //Ejercicio 4 - Incompleto
     @Override
     public Retorno filtrarJugadores(Consulta consulta) {
-        return Retorno.noImplementada();
+
+       if(!consulta.toString().isEmpty()){
+          ABB<Jugador> jugadoresCumplen = arbolJugadores.filtrar(consulta);
+           return Retorno.ok();
+       }else{
+           return Retorno.error1("La consulta esta vacía.");
+       }
     }
 
     //Ejercicio 5 - Listo
