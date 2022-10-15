@@ -35,7 +35,7 @@ public class ImplementacionSistema implements Sistema {
         return Retorno.error1("maxCentros es menor o igual a 5.");
     }
 
-    //Ejercicio 2 - Listo (Sin probar)
+    //Ejercicio 2 - Listo
     @Override
     public Retorno explorarCentroUrbano(boolean[] correctas, int[] puntajes, int minimo) {
         int totalPuntos = 0;
