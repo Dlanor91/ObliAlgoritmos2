@@ -75,17 +75,6 @@ public class Grafo {
         this.cantidad++;
     }
 
-    // PRE: existeVertice
-    public void borrarVertice(CentroUrbano vert) {
-        int pos = obtenerPos(vert);
-        for (int k = 0; k < tope; k++) {
-            this.matAdyacentes[pos][k].setExiste(false);//aqui borro los adyacentes
-            this.matAdyacentes[k][pos].setExiste(false);
-        }
-        this.vertices[pos] = null;
-        this.cantidad--;
-    }
-
     public boolean existeVertice(CentroUrbano vert) {
         return obtenerPos(vert) != -1;
     }
@@ -132,13 +121,6 @@ public class Grafo {
             return true;
         }
         return false;
-    }
-
-    // existeVertice(origen) && existeVertice(destino) && existeArista
-    public void borrarArista(CentroUrbano origen, CentroUrbano destino) {
-        int posOrigen = obtenerPos(origen);
-        int posDestino = obtenerPos(destino);
-        matAdyacentes[posOrigen][posDestino].setExiste(false);
     }
 
     public Lista<CentroUrbano> verticesAdyacentes(CentroUrbano vert) {
@@ -226,6 +208,25 @@ public class Grafo {
         }
     }
 
+    public boolean bfsCamino(CentroUrbano vert,CentroUrbano buscado) {
+        boolean[] visitados = new boolean[tope];
+        int inicio = obtenerPos(vert);
+        Cola<Integer> cola = new ColaImp<>();
+        cola.encolar(inicio);
+        visitados[inicio] = true;
+        while (!cola.esVacia()) {
+            int pos = cola.desencolar();
+            if(vertices[pos].compareTo(buscado) == 0) return true;
+            for (int i = 0; i < tope; i++) {
+                if (this.matAdyacentes[pos][i].isExiste() && !visitados[i]) {
+                    cola.encolar(i);
+                    visitados[i] = true;
+                }
+            }
+        }
+        return false;
+    }
+
     //Marcando como visitado al encolar no encolo elementos repetidos
     public ABB<CentroUrbano> bfsSinRepetir(CentroUrbano vert,int nivel) {
         boolean[] visitados = new boolean[tope];
@@ -256,5 +257,87 @@ public class Grafo {
             }
         }
         return nuevoArbolCentroUrbano;
+    }
+
+    public double dijkstraKMS(CentroUrbano vOrigen, CentroUrbano vDestino){
+        int posOrigen = obtenerPos(vOrigen);
+        int posDestino = obtenerPos(vDestino);
+
+        boolean[] visitados = new boolean[this.tope];
+        double[] costos = new double[this.tope];
+        CentroUrbano[] anterior = new CentroUrbano[this.tope];
+        for(int i = 0; i<tope; i++){
+            costos[i] = Integer.MAX_VALUE;
+            anterior[i] = new CentroUrbano("","");
+        }
+        costos[posOrigen] = 0; // Marcar el origen con distancia cero
+
+        for(int i = 0; i<tope; i++){ //Loop (cantidad de vertices)
+            //Obtener el vertice no visitado de menor costo(si hay varios cualquiera)
+            int pos= obtenerSiguienteVerticeNoVisitadoDeMenorDistancia(costos,visitados);
+            if(pos != -1){
+                //2 Visitarlo
+                visitados[pos] = true;
+                //3 Evaluar si tengo que actualizar el costo de los adyacentes NO VISITADOS
+                for(int j =0; j<tope;j++){
+                    if(matAdyacentes[pos][j].isExiste() && !visitados[j] && matAdyacentes[pos][j].getEstadoDelCamino() != EstadoCamino.MALO){
+                        double distanciaNueva = costos[pos] + matAdyacentes[pos][j].getKms();
+                        if(distanciaNueva < costos[j]) {
+                            costos[j] = distanciaNueva;
+                            anterior[j] = vertices[pos];
+                        }
+                    }
+                }
+            }
+        }
+
+        return costos[posDestino];
+    }
+
+    public double dijkstraCosto(CentroUrbano vOrigen, CentroUrbano vDestino){
+        int posOrigen = obtenerPos(vOrigen);
+        int posDestino = obtenerPos(vDestino);
+
+        boolean[] visitados = new boolean[this.tope];
+        double[] costos = new double[this.tope];
+        CentroUrbano[] anterior = new CentroUrbano[this.tope];
+        for(int i = 0; i<tope; i++){
+            costos[i] = Integer.MAX_VALUE;
+            anterior[i] = new CentroUrbano("","");
+        }
+        costos[posOrigen] = 0; // Marcar el origen con distancia cero
+
+        for(int i = 0; i<tope; i++){ //Loop (cantidad de vertices)
+            //Obtener el vertice no visitado de menor costo(si hay varios cualquiera)
+            int pos= obtenerSiguienteVerticeNoVisitadoDeMenorDistancia(costos,visitados);
+            if(pos != -1){
+                //2 Visitarlo
+                visitados[pos] = true;
+                //3 Evaluar si tengo que actualizar el costo de los adyacentes NO VISITADOS
+                for(int j =0; j<tope;j++){
+                    if(matAdyacentes[pos][j].isExiste() && !visitados[j] && matAdyacentes[pos][j].getEstadoDelCamino() != EstadoCamino.MALO){
+                        double distanciaNueva = costos[pos] + matAdyacentes[pos][j].getCosto();
+                        if(distanciaNueva < costos[j]) {
+                            costos[j] = distanciaNueva;
+                            anterior[j] = vertices[pos];
+                        }
+                    }
+                }
+            }
+        }
+
+        return costos[posDestino];
+    }
+
+    private int obtenerSiguienteVerticeNoVisitadoDeMenorDistancia(double [] costos, boolean[] visitados){
+        int posMin = -1;
+        double min = Integer.MAX_VALUE;
+        for(int i = 0; i<tope; i++){
+            if(!visitados[i] && costos[i]< min){
+                min = costos[i];
+                posMin = i;
+            }
+        }
+        return posMin;
     }
 }
