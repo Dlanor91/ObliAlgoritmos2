@@ -1,7 +1,7 @@
 package sistema;
 
 import dominio.Arbol.ABB;
-import dominio.Arbol.Tupla;
+import dominio.Tupla.Tupla;
 
 import dominio.CentroUrbano;
 import dominio.Grafo.Camino;
@@ -115,7 +115,6 @@ public class ImplementacionSistema implements Sistema {
     public Retorno filtrarJugadores(Consulta consulta) {
 
        if(!consulta.toString().isEmpty()){
-          ABB<Jugador> jugadoresCumplen = arbolJugadores.filtrar(consulta);
            return Retorno.ok();
        }else{
            return Retorno.error1("La consulta esta vacía.");
@@ -277,7 +276,7 @@ public class ImplementacionSistema implements Sistema {
         }
     }
 
-    //Ejercicio 13 - Incompleto
+    //Ejercicio 13 - Listo
     @Override
     public Retorno viajeCostoMinimoKilometros(String codigoCentroOrigen, String codigoCentroDestino) {
         if (codigoCentroOrigen != null && !codigoCentroOrigen.isEmpty() && codigoCentroDestino != null && !codigoCentroDestino.isEmpty()) {
@@ -285,10 +284,9 @@ public class ImplementacionSistema implements Sistema {
             CentroUrbano codDestino = grafoCentrosUrbanos.obtenerVertice(codigoCentroDestino);
             if (codOrigen != null) {
                 if (codDestino != null) {
-                    if(grafoCentrosUrbanos.bfsCamino(codOrigen,codDestino)){
-                        double costoKMS = grafoCentrosUrbanos.dijkstraImplementado(codOrigen, codDestino, "kms");
-                        int costoIntKMS = (int) (costoKMS);
-                        return new Retorno(Retorno.Resultado.OK, costoIntKMS, "");
+                    Tupla costoKMS = grafoCentrosUrbanos.dijkstraImplementado(codOrigen, codDestino, "kms");
+                    if(costoKMS.getCantidad()!=Integer.MAX_VALUE && costoKMS.getCantidad()>0){
+                        return new Retorno(Retorno.Resultado.OK, costoKMS.getCantidad(), costoKMS.getDato().toString());
                     }else{
                         return Retorno.error2("No hay camino entre el origen y el destino.");
                     }
@@ -304,7 +302,7 @@ public class ImplementacionSistema implements Sistema {
         }
     }
 
-    //Ejercicio 14 - Incompleto
+    //Ejercicio 14 - Listo
     @Override
     public Retorno viajeCostoMinimoMonedas(String codigoCentroOrigen, String codigoCentroDestino) {
         if (codigoCentroOrigen != null && !codigoCentroOrigen.isEmpty() && codigoCentroDestino != null && !codigoCentroDestino.isEmpty()) {
@@ -312,10 +310,9 @@ public class ImplementacionSistema implements Sistema {
             CentroUrbano codDestino = grafoCentrosUrbanos.obtenerVertice(codigoCentroDestino);
             if (codOrigen != null) {
                 if (codDestino != null) {
-                    if(grafoCentrosUrbanos.bfsCamino(codOrigen,codDestino)){
-                        double costoMonedas = grafoCentrosUrbanos.dijkstraImplementado(codOrigen, codDestino, "costos");
-                        int costoIntMonedas = (int) (costoMonedas);
-                        return new Retorno(Retorno.Resultado.OK, costoIntMonedas, "");
+                    Tupla costoMonedas = grafoCentrosUrbanos.dijkstraImplementado(codOrigen, codDestino, "costos");
+                    if(costoMonedas.getCantidad()!=Integer.MAX_VALUE && costoMonedas.getCantidad()>0){
+                        return new Retorno(Retorno.Resultado.OK, costoMonedas.getCantidad(), costoMonedas.getDato().toString());
                     }else{
                         return Retorno.error2("No hay camino entre el origen y el destino.");
                     }
