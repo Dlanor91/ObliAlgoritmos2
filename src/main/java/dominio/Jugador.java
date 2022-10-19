@@ -54,51 +54,51 @@ public class Jugador implements Comparable<Jugador> {
         return tipo;
     }
 
-    public static int getConvertirCedulaEntero(String cedula){
+    public static int getConvertirCedulaEntero(String cedula) {
 
-        String cedulaNueva="";
-        for(int i=0;i<cedula.length();i++){
-            if(cedula.charAt(i) != '.' && cedula.charAt(i) != '-'){
-                cedulaNueva+=cedula.charAt(i);
+        String cedulaNueva = "";
+        for (int i = 0; i < cedula.length(); i++) {
+            if (cedula.charAt(i) != '.' && cedula.charAt(i) != '-') {
+                cedulaNueva += cedula.charAt(i);
             }
         }
         int cedulaInt = Integer.parseInt(cedulaNueva);
         return cedulaInt;
     }
 
-    public static boolean validar(String cedula, String nombre,int edad, String escuela, TipoJugador tipo){
-        if(!cedula.isEmpty() && !nombre.isEmpty() && edad > 0 && !escuela.isEmpty() && tipo != null){
+    public static boolean validar(String cedula, String nombre, int edad, String escuela, TipoJugador tipo) {
+        if (cedula != null && nombre != null && escuela != null && !cedula.isEmpty() && !nombre.isEmpty() && edad > 0 && !escuela.isEmpty() && tipo != null) {
             return true;
         }
         return false;
     }
 
-    public static boolean validarCedula(String cedula){
+    public static boolean validarCedula(String cedula) {
 
-            if(cedula.length()==11){
+        if (cedula.length() == 11) {
 
-                Pattern pat11 = Pattern.compile("[1-9][.]\\d\\d\\d[.]\\d\\d\\d[-]\\d");
-                Matcher mat11 = pat11.matcher(cedula);
+            Pattern pat11 = Pattern.compile("[1-9][.]\\d\\d\\d[.]\\d\\d\\d[-]\\d");
+            Matcher mat11 = pat11.matcher(cedula);
 
-                if (mat11.matches()) {
-                    return true;
-                }
-            }else if(cedula.length()==9){
-                Pattern pat9 = Pattern.compile("[1-9]\\d\\d[.]\\d\\d\\d[-]\\d");
-                Matcher mat9 = pat9.matcher(cedula);
-                if (mat9.matches()) {
-                    return true;
-                }
+            if (mat11.matches()) {
+                return true;
             }
+        } else if (cedula.length() == 9) {
+            Pattern pat9 = Pattern.compile("[1-9]\\d\\d[.]\\d\\d\\d[-]\\d");
+            Matcher mat9 = pat9.matcher(cedula);
+            if (mat9.matches()) {
+                return true;
+            }
+        }
         return false;
     }
 
     @Override
     public int compareTo(Jugador o) {
-        if(cedulaInt == o.cedulaInt){
+        if (cedulaInt == o.cedulaInt) {
             return 0;
         }
-        if(cedulaInt > o.cedulaInt){
+        if (cedulaInt > o.cedulaInt) {
             return 1;
         }
 
@@ -106,8 +106,8 @@ public class Jugador implements Comparable<Jugador> {
     }
 
     @Override
-    public String toString(){
-        return cedula + "; " + nombre + "; " + edad + "; " + escuela + "; " + tipo.getValor();
+    public String toString() {
+        return cedula + ";" + nombre + ";" + edad + ";" + escuela + ";" + tipo.getValor();
     }
 
 }

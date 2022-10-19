@@ -18,7 +18,7 @@ public class ImplementacionSistema implements Sistema {
     private ListaGen<Jugador> listaJugadoresMedio;
     private ListaGen<Jugador> listaJugadoresMonitor;
 
-    //Ejercicio 1 - A medias
+    //Ejercicio 1 - Listo
     @Override
     public Retorno inicializarSistema(int maxCentros) {
         if (maxCentros > 5) {
@@ -40,7 +40,7 @@ public class ImplementacionSistema implements Sistema {
     public Retorno explorarCentroUrbano(boolean[] correctas, int[] puntajes, int minimo) {
         int totalPuntos = 0;
         int respuestasCorrectas = 0;
-        String resultadoExploracion = "No pasa";
+        String resultadoExploracion = "no pasa";
         if (correctas != null && puntajes != null) {
             if (correctas.length >= 3 && puntajes.length >= 3) {
                 if (correctas.length == puntajes.length) {
@@ -62,7 +62,7 @@ public class ImplementacionSistema implements Sistema {
                                 respuestasCorrectas = 0;
                             }
                         }
-                        if (totalPuntos >= minimo) resultadoExploracion = "Pasa";
+                        if (totalPuntos >= minimo) resultadoExploracion = "pasa";
                         Retorno retorno = new Retorno(Retorno.Resultado.OK, totalPuntos, resultadoExploracion);
                         return retorno;
                     } else {
@@ -113,12 +113,12 @@ public class ImplementacionSistema implements Sistema {
     //Ejercicio 4 - Incompleto
     @Override
     public Retorno filtrarJugadores(Consulta consulta) {
-
-       if(!consulta.toString().isEmpty()){
-           return Retorno.ok();
-       }else{
-           return Retorno.error1("La consulta esta vacía.");
-       }
+        Retorno retorno = new Retorno(Retorno.Resultado.OK, 0, "");
+        if (!consulta.toString().isEmpty()) {
+            return retorno;
+        } else {
+            return Retorno.error1("La consulta esta vacía.");
+        }
     }
 
     //Ejercicio 5 - Listo
@@ -142,7 +142,7 @@ public class ImplementacionSistema implements Sistema {
     public Retorno listarJugadoresPorCedulaAscendente() {
         Retorno retorno = new Retorno(Retorno.Resultado.OK, 0, "");
         ListaGen<Jugador> listaJugadoresAsc = arbolJugadores.listarAscendente();
-        if (listaJugadoresAsc != null) {
+        if (listaJugadoresAsc.getCantNodos() != 0) {
             retorno = new Retorno(Retorno.Resultado.OK, 0, listaJugadoresAsc.toString());
         }
 
@@ -155,7 +155,7 @@ public class ImplementacionSistema implements Sistema {
 
         Retorno retorno = new Retorno(Retorno.Resultado.OK, 0, "");
         ListaGen<Jugador> listaJugadoresDes = arbolJugadores.listarDescendente();
-        if (listaJugadoresDes != null) {
+        if (listaJugadoresDes.getCantNodos() != 0) {
             retorno = new Retorno(Retorno.Resultado.OK, 0, listaJugadoresDes.toString());
         }
 
@@ -205,11 +205,11 @@ public class ImplementacionSistema implements Sistema {
     @Override
     public Retorno registrarCamino(String codigoCentroOrigen, String codigoCentroDestino, double costo, double tiempo, double kilometros, EstadoCamino estadoDelCamino) {
         if (Camino.validar(costo, tiempo, kilometros)) {
-            if (!codigoCentroOrigen.isEmpty() && !codigoCentroDestino.isEmpty() && Camino.validar(estadoDelCamino)) {
-                CentroUrbano nuevoCUOrigen = new CentroUrbano(codigoCentroOrigen);
-                if (grafoCentrosUrbanos.existeVertice(nuevoCUOrigen)) {
-                    CentroUrbano nuevoCUDestino = new CentroUrbano(codigoCentroDestino);
-                    if (grafoCentrosUrbanos.existeVertice(nuevoCUDestino)) {
+            if (codigoCentroOrigen != null && codigoCentroDestino != null && !codigoCentroOrigen.isEmpty() && !codigoCentroDestino.isEmpty() && Camino.validar(estadoDelCamino)) {
+               CentroUrbano nuevoCUOrigen = grafoCentrosUrbanos.obtenerVertice(codigoCentroOrigen);
+                if (nuevoCUOrigen != null) {
+                    CentroUrbano nuevoCUDestino = grafoCentrosUrbanos.obtenerVertice(codigoCentroDestino);
+                    if (nuevoCUDestino != null) {
                         if (!grafoCentrosUrbanos.existeArista(nuevoCUOrigen, nuevoCUDestino)) {
                             grafoCentrosUrbanos.agregarArista(nuevoCUOrigen, nuevoCUDestino, costo, tiempo, kilometros, estadoDelCamino);
                             return Retorno.ok();
@@ -230,15 +230,15 @@ public class ImplementacionSistema implements Sistema {
         }
     }
 
-    //Ejercicio 11
+    //Ejercicio 11 - Listo
     @Override
     public Retorno actualizarCamino(String codigoCentroOrigen, String codigoCentroDestino, double costo, double tiempo, double kilometros, EstadoCamino estadoDelCamino) {
         if (Camino.validar(costo, tiempo, kilometros)) {
-            if (!codigoCentroOrigen.isEmpty() && !codigoCentroDestino.isEmpty() && Camino.validar(estadoDelCamino)) {
-                CentroUrbano nuevoCUOrigen = new CentroUrbano(codigoCentroOrigen);
-                if (grafoCentrosUrbanos.existeVertice(nuevoCUOrigen)) {
-                    CentroUrbano nuevoCUDestino = new CentroUrbano(codigoCentroDestino);
-                    if (grafoCentrosUrbanos.existeVertice(nuevoCUDestino)) {
+            if (codigoCentroOrigen != null && codigoCentroDestino != null && !codigoCentroOrigen.isEmpty() && !codigoCentroDestino.isEmpty() && Camino.validar(estadoDelCamino)) {
+                CentroUrbano nuevoCUOrigen = grafoCentrosUrbanos.obtenerVertice(codigoCentroOrigen);
+                if (nuevoCUOrigen != null) {
+                    CentroUrbano nuevoCUDestino = grafoCentrosUrbanos.obtenerVertice(codigoCentroDestino);
+                    if (nuevoCUDestino != null) {
                         if (grafoCentrosUrbanos.existeArista(nuevoCUOrigen, nuevoCUDestino)) {
                             grafoCentrosUrbanos.actualizarArista(nuevoCUOrigen, nuevoCUDestino, costo, tiempo, kilometros, estadoDelCamino);
                             return Retorno.ok();
@@ -285,9 +285,9 @@ public class ImplementacionSistema implements Sistema {
             if (codOrigen != null) {
                 if (codDestino != null) {
                     Tupla costoKMS = grafoCentrosUrbanos.dijkstraImplementado(codOrigen, codDestino, "kms");
-                    if(costoKMS.getCantidad()!=Integer.MAX_VALUE && costoKMS.getCantidad()>0){
+                    if (costoKMS.getCantidad() != Integer.MAX_VALUE && costoKMS.getCantidad() > 0) {
                         return new Retorno(Retorno.Resultado.OK, costoKMS.getCantidad(), costoKMS.getDato().toString());
-                    }else{
+                    } else {
                         return Retorno.error2("No hay camino entre el origen y el destino.");
                     }
                 } else {
@@ -311,9 +311,9 @@ public class ImplementacionSistema implements Sistema {
             if (codOrigen != null) {
                 if (codDestino != null) {
                     Tupla costoMonedas = grafoCentrosUrbanos.dijkstraImplementado(codOrigen, codDestino, "costos");
-                    if(costoMonedas.getCantidad()!=Integer.MAX_VALUE && costoMonedas.getCantidad()>0){
+                    if (costoMonedas.getCantidad() != Integer.MAX_VALUE && costoMonedas.getCantidad() > 0) {
                         return new Retorno(Retorno.Resultado.OK, costoMonedas.getCantidad(), costoMonedas.getDato().toString());
-                    }else{
+                    } else {
                         return Retorno.error2("No hay camino entre el origen y el destino.");
                     }
                 } else {

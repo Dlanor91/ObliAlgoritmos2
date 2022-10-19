@@ -60,12 +60,14 @@ public class ListaGen<T> implements Lista<T>{
     @Override
     public String toString(){
         String mostrar="";
-        NodoGen<T> aux=getPrimero();
-        for(int i=0;i<getCantNodos()-1;i++){
-            mostrar += ""+aux.getDato()+" | ";
-            aux=aux.getSiguiente();
+        if(!estaVacia()) {
+            NodoGen<T> aux = getPrimero();
+            for (int i = 0; i < getCantNodos() - 1; i++) {
+                mostrar += "" + aux.getDato() + "|";
+                aux = aux.getSiguiente();
+            }
+            mostrar += aux.getDato();
         }
-        mostrar += aux.getDato();
         return mostrar;
     }
 }
