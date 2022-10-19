@@ -1,7 +1,7 @@
 package dominio.Grafo;
 
 import dominio.Arbol.ABB;
-import dominio.Arbol.Tupla;
+import dominio.Tupla.Tupla;
 import dominio.CentroUrbano;
 import dominio.Cola.Cola;
 import dominio.Cola.ColaImp;
@@ -104,9 +104,8 @@ public class Grafo {
         return matAdyacentes[posOrigen][posDestino].isExiste();
     }
 
-    public boolean actualizarArista(CentroUrbano origen, CentroUrbano destino, double costo, double tiempo, double kms, EstadoCamino estadoDelCamino)
-    {
-        if(existeArista(origen, destino)){
+    public boolean actualizarArista(CentroUrbano origen, CentroUrbano destino, double costo, double tiempo, double kms, EstadoCamino estadoDelCamino) {
+        if (existeArista(origen, destino)) {
             int posOrigen = obtenerPos(origen);
             int posDestino = obtenerPos(destino);
             matAdyacentes[posOrigen][posDestino].setCosto(costo);
@@ -118,26 +117,7 @@ public class Grafo {
         return false;
     }
 
-    public boolean bfsCamino(CentroUrbano vert,CentroUrbano buscado) {
-        boolean[] visitados = new boolean[tope];
-        int inicio = obtenerPos(vert);
-        Cola<Integer> cola = new ColaImp<>();
-        cola.encolar(inicio);
-        visitados[inicio] = true;
-        while (!cola.esVacia()) {
-            int pos = cola.desencolar();
-            if(vertices[pos].compareTo(buscado) == 0) return true;
-            for (int i = 0; i < tope; i++) {
-                if (this.matAdyacentes[pos][i].isExiste() && !visitados[i]) {
-                    cola.encolar(i);
-                    visitados[i] = true;
-                }
-            }
-        }
-        return false;
-    }
-
-    public ABB<CentroUrbano> bfsSinRepetir(CentroUrbano vert,int nivel) {
+    public ABB<CentroUrbano> bfsSinRepetir(CentroUrbano vert, int nivel) {
         boolean[] visitados = new boolean[tope];
         int inicio = obtenerPos(vert);
         Cola<Integer> cola = new ColaImp<>();
@@ -145,10 +125,10 @@ public class Grafo {
         cola.encolar(inicio);
         visitados[inicio] = true;
         ABB<CentroUrbano> nuevoArbolCentroUrbano = new ABB<>();
-        int cant =0;
-        Tupla control = new Tupla<>(inicio,cant);
+        int cant = 0;
+        Tupla control = new Tupla<>(inicio, cant);
         colaNivel.encolar(control);
-        while (!colaNivel.esVacia()&& colaNivel.getInicio().getDato().getCantidad()<=nivel) {
+        while (!colaNivel.esVacia() && colaNivel.getInicio().getDato().getCantidad() <= nivel) {
             int pos = cola.desencolar();
             int posCola = colaNivel.desencolar().getCantidad();
             nuevoArbolCentroUrbano.insertar(vertices[pos]);
@@ -156,7 +136,7 @@ public class Grafo {
                 if (this.matAdyacentes[pos][i].isExiste() && !visitados[i]) {
                     cola.encolar(i);
                     visitados[i] = true;
-                    control = new Tupla<>(i,cant);
+                    control = new Tupla<>(i, cant);
                     control.setCantidad(posCola + 1);
                     colaNivel.encolar(control);
                 }
@@ -165,47 +145,65 @@ public class Grafo {
         return nuevoArbolCentroUrbano;
     }
 
-    public double dijkstraImplementado(CentroUrbano vOrigen, CentroUrbano vDestino,String seleccion){
+    public Tupla dijkstraImplementado(CentroUrbano vOrigen, CentroUrbano vDestino, String seleccion) {
+        double[] costos = new double[this.tope];
         int posOrigen = obtenerPos(vOrigen);
         int posDestino = obtenerPos(vDestino);
+        int[] anterior = new int[this.tope];
+        String caminoMasCorto ="";
 
-        boolean[] visitados = new boolean[this.tope];
-        double[] costos = new double[this.tope];
-        double distanciaNueva = 0;
-        CentroUrbano[] anterior = new CentroUrbano[this.tope];
-        for(int i = 0; i<tope; i++){
-            costos[i] = Integer.MAX_VALUE;
-            anterior[i] = new CentroUrbano("","");
-        }
-        costos[posOrigen] = 0;
-        for(int i = 0; i<tope; i++){
-            int pos= obtenerSiguienteVerticeNoVisitadoDeMenorDistancia(costos,visitados);
-            if(pos != -1){
-                visitados[pos] = true;
-                for(int j =0; j<tope;j++){
-                    if(matAdyacentes[pos][j].isExiste() && !visitados[j] && matAdyacentes[pos][j].getEstadoDelCamino() != EstadoCamino.MALO){
-                        if(seleccion.equals("kms")){
-                            distanciaNueva = costos[pos] + matAdyacentes[pos][j].getKms();
-                        }else if(seleccion.equals("costos")){
-                            distanciaNueva= costos[pos] + matAdyacentes[pos][j].getCosto();
-                        }
-                        if(distanciaNueva < costos[j]) {
-                            costos[j] = distanciaNueva;
-                            anterior[j] = vertices[pos];
+        if (seleccion.equals("kms") || seleccion.equals("costos")) {
+
+            boolean[] visitados = new boolean[this.tope];
+            double distanciaNueva = 0;
+
+            for (int i = 0; i < tope; i++) {
+                costos[i] = Integer.MAX_VALUE;
+                anterior[i] = 0;
+            }
+            costos[posOrigen] = 0;
+            for (int i = 0; i < tope; i++) {
+                int pos = obtenerSiguienteVerticeNoVisitadoDeMenorDistancia(costos, visitados);
+                if (pos != -1 && pos != posDestino) {
+                    visitados[pos] = true;
+                    for (int j = 0; j < tope; j++) {
+                        if (matAdyacentes[pos][j].isExiste() && !visitados[j] && matAdyacentes[pos][j].getEstadoDelCamino() != EstadoCamino.MALO) {
+                            if (seleccion.equals("kms")) {
+                                distanciaNueva = costos[pos] + matAdyacentes[pos][j].getKms();
+                            } else if (seleccion.equals("costos")) {
+                                distanciaNueva = costos[pos] + matAdyacentes[pos][j].getCosto();
+                            }
+                            if (distanciaNueva < costos[j]) {
+                                costos[j] = distanciaNueva;
+                                anterior[j] = pos;
+                            }
                         }
                     }
                 }
             }
+            if(distanciaNueva>0)  caminoMasCorto = obtenerCaminoMasCorto(posOrigen,posDestino,anterior);
         }
 
-        return costos[posDestino];
+        return new Tupla<>(caminoMasCorto,(int)costos[posDestino]);
     }
 
-    private int obtenerSiguienteVerticeNoVisitadoDeMenorDistancia(double [] costos, boolean[] visitados){
+    private String obtenerCaminoMasCorto(int posOrigen, int posDestino, int[] anterior) {
+        String camino = "";
+        int indice = posDestino;
+        while(indice != posOrigen){
+            camino = "|" + vertices[indice] + camino;
+            indice = anterior[indice];
+        }
+
+        camino = vertices[posOrigen]+ camino;
+        return camino;
+    }
+
+    private int obtenerSiguienteVerticeNoVisitadoDeMenorDistancia(double[] costos, boolean[] visitados) {
         int posMin = -1;
         double min = Integer.MAX_VALUE;
-        for(int i = 0; i<tope; i++){
-            if(!visitados[i] && costos[i]< min){
+        for (int i = 0; i < tope; i++) {
+            if (!visitados[i] && costos[i] < min) {
                 min = costos[i];
                 posMin = i;
             }

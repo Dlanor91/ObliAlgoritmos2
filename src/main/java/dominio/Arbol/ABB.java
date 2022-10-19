@@ -2,7 +2,7 @@ package dominio.Arbol;
 
 
 import dominio.Lista.ListaGen;
-import interfaz.Consulta;
+import dominio.Tupla.Tupla;
 
 public class ABB<T extends Comparable<T>> {
 
@@ -104,15 +104,4 @@ public class ABB<T extends Comparable<T>> {
         }
     }
 
-    public ABB<T> filtrar(Consulta consulta){
-       ABB<T> encontrados = new ABB<>();
-       filtrar(this.raiz,consulta);
-       return encontrados;
-    }
-
-    private void filtrar(NodoGenArbol<T> nodo, Consulta consulta) {
-        if(nodo !=null){
-
-        }
-    }
 }
