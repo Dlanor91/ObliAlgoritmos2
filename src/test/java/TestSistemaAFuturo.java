@@ -1,7 +1,4 @@
-import interfaz.EstadoCamino;
-import interfaz.Retorno;
-import interfaz.Sistema;
-import interfaz.TipoJugador;
+import interfaz.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import sistema.ImplementacionSistema;
@@ -124,5 +121,6 @@ public class TestSistemaAFuturo {
         Assertions.assertEquals(Retorno.error2("error").getResultado(), sistema.viajeCostoMinimoMonedas("aa","aa5").getResultado());
         Assertions.assertEquals(Retorno.error3("error").getResultado(), sistema.viajeCostoMinimoMonedas("aa8","aa5").getResultado());
         Assertions.assertEquals(Retorno.error4("error").getResultado(), sistema.viajeCostoMinimoMonedas("aa","aa8").getResultado());
+
     }
 }

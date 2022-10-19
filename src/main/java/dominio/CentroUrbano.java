@@ -9,10 +9,6 @@ public class CentroUrbano implements Comparable<CentroUrbano> {
         this.nombre = nombre;
     }
 
-    public CentroUrbano(String codigo) {
-        this.codigo = codigo;
-    }
-
     public String getCodigo() {
         return codigo;
     }
@@ -30,7 +26,7 @@ public class CentroUrbano implements Comparable<CentroUrbano> {
     }
 
     public static boolean validar(String codigo, String nombre) {
-        if (!codigo.isEmpty() && !nombre.isEmpty()) {
+        if (codigo!= null && nombre!= null && !codigo.isEmpty() && !nombre.isEmpty()) {
             return true;
         }
         return false;
