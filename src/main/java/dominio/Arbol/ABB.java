@@ -12,7 +12,6 @@ public class ABB<T extends Comparable<T>> {
         this.raiz = null;
     }
 
-    // Pos: Inserta el dato pasado como parametro en el arbol manteniendolo ordenado.
     public void insertar(T dato) {
         if (this.raiz == null) {
             this.raiz = new NodoGenArbol<>(dato);
@@ -38,7 +37,6 @@ public class ABB<T extends Comparable<T>> {
 
     }
 
-    //In Order
     public ListaGen<T> listarAscendente() {
         ListaGen<T> nuevaLista = new ListaGen<>();
         listarAscendente(raiz, nuevaLista);

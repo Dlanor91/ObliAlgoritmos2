@@ -286,7 +286,7 @@ public class ImplementacionSistema implements Sistema {
             if (codOrigen != null) {
                 if (codDestino != null) {
                     if(grafoCentrosUrbanos.bfsCamino(codOrigen,codDestino)){
-                        double costoKMS = grafoCentrosUrbanos.dijkstraKMS(codOrigen, codDestino);
+                        double costoKMS = grafoCentrosUrbanos.dijkstraImplementado(codOrigen, codDestino, "kms");
                         int costoIntKMS = (int) (costoKMS);
                         return new Retorno(Retorno.Resultado.OK, costoIntKMS, "");
                     }else{
@@ -313,7 +313,7 @@ public class ImplementacionSistema implements Sistema {
             if (codOrigen != null) {
                 if (codDestino != null) {
                     if(grafoCentrosUrbanos.bfsCamino(codOrigen,codDestino)){
-                        double costoMonedas = grafoCentrosUrbanos.dijkstraCosto(codOrigen, codDestino);
+                        double costoMonedas = grafoCentrosUrbanos.dijkstraImplementado(codOrigen, codDestino, "costos");
                         int costoIntMonedas = (int) (costoMonedas);
                         return new Retorno(Retorno.Resultado.OK, costoIntMonedas, "");
                     }else{
