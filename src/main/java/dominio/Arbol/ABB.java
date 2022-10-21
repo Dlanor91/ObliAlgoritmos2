@@ -20,6 +20,10 @@ public class ABB<T extends Comparable<T>> {
         }
     }
 
+    public NodoGenArbol<T> getRaiz() {
+        return raiz;
+    }
+
     private void insertarRec(NodoGenArbol<T> nodo, T dato) {
         if (dato.compareTo(nodo.getDato()) < 0) {
             if (nodo.getIzq() == null) {
@@ -103,5 +107,7 @@ public class ABB<T extends Comparable<T>> {
             }
         }
     }
+
+
 
 }
