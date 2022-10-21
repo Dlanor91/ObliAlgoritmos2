@@ -1,6 +1,7 @@
 package sistema;
 
 import dominio.Arbol.ABB;
+import dominio.Arbol.NodoGenArbol;
 import dominio.Tupla.Tupla;
 
 import dominio.CentroUrbano;
@@ -9,6 +10,8 @@ import dominio.Grafo.Grafo;
 import dominio.Jugador;
 import dominio.Lista.ListaGen;
 import interfaz.*;
+
+import java.sql.SQLOutput;
 
 public class ImplementacionSistema implements Sistema {
     private ABB<Jugador> arbolJugadores;
@@ -110,15 +113,43 @@ public class ImplementacionSistema implements Sistema {
 
     }
 
-    //Ejercicio 4 - Incompleto
+    //Ejercicio 4 - Listo
     @Override
     public Retorno filtrarJugadores(Consulta consulta) {
         Retorno retorno = new Retorno(Retorno.Resultado.OK, 0, "");
         if (!consulta.toString().isEmpty()) {
-            return retorno;
+            ListaGen<String> listaGen = new ListaGen<>();
+            filtrar(arbolJugadores.getRaiz(), listaGen, consulta);
+            return new Retorno(Retorno.Resultado.OK, 0, listaGen.toString());
         } else {
             return Retorno.error1("La consulta esta vacía.");
         }
+    }
+
+    private void filtrar(NodoGenArbol<Jugador> nodo, ListaGen<String> listaJugadores, Consulta consulta) {
+        if (nodo != null) {
+            filtrar(nodo.getIzq(), listaJugadores, consulta);
+            if (recorrerConsulta(consulta.getRaiz(), nodo)) listaJugadores.agregarAlFinal(nodo.getDato().getCedula());
+            filtrar(nodo.getDer(), listaJugadores, consulta);
+        }
+    }
+
+    private boolean recorrerConsulta(Consulta.NodoConsulta nodo, NodoGenArbol<Jugador> nodoJugador) {
+        if (nodo != null) {
+            switch (nodo.getTipoNodoConsulta()) {
+                case EscuelaIgual:
+                    return (nodoJugador.getDato().getEscuela().equals(nodo.getValorString()));
+                case NombreIgual:
+                    return (nodoJugador.getDato().getNombre().equals(nodo.getValorString()));
+                case EdadMayor:
+                    return (nodoJugador.getDato().getEdad() > (nodo.getValorInt()));
+                case Or:
+                    return (recorrerConsulta(nodo.getIzq(), nodoJugador) || recorrerConsulta(nodo.getDer(), nodoJugador));
+                case And:
+                    return (recorrerConsulta(nodo.getIzq(), nodoJugador) && recorrerConsulta(nodo.getDer(), nodoJugador));
+            }
+        }
+        return false;
     }
 
     //Ejercicio 5 - Listo
@@ -206,7 +237,7 @@ public class ImplementacionSistema implements Sistema {
     public Retorno registrarCamino(String codigoCentroOrigen, String codigoCentroDestino, double costo, double tiempo, double kilometros, EstadoCamino estadoDelCamino) {
         if (Camino.validar(costo, tiempo, kilometros)) {
             if (codigoCentroOrigen != null && codigoCentroDestino != null && !codigoCentroOrigen.isEmpty() && !codigoCentroDestino.isEmpty() && Camino.validar(estadoDelCamino)) {
-               CentroUrbano nuevoCUOrigen = grafoCentrosUrbanos.obtenerVertice(codigoCentroOrigen);
+                CentroUrbano nuevoCUOrigen = grafoCentrosUrbanos.obtenerVertice(codigoCentroOrigen);
                 if (nuevoCUOrigen != null) {
                     CentroUrbano nuevoCUDestino = grafoCentrosUrbanos.obtenerVertice(codigoCentroDestino);
                     if (nuevoCUDestino != null) {

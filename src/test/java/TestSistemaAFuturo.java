@@ -32,7 +32,7 @@ public class TestSistemaAFuturo {
         Assertions.assertEquals(Retorno.error2("Error2").getResultado(), sistema.registrarJugador("0.234.456-1","Pedro",12,"Escuela1", TipoJugador.INICIAL).getResultado());
         Assertions.assertEquals(Retorno.error2("Error2").getResultado(), sistema.registrarJugador("034.456-1","Pedro",12,"Escuela1", TipoJugador.MONITOR).getResultado());
         Assertions.assertEquals(Retorno.ok().getResultado(), sistema.registrarJugador("8.634.456-1","DerPedro",12,"Escuela1", TipoJugador.AVANZADO).getResultado());
-        System.out.println(sistema.registrarJugador("8.634.456-6","DerPedro",12,"Escuela1", TipoJugador.MEDIO).getValorString());
+        System.out.println(sistema.registrarJugador("8.634.456-6","DerPedro",12,"Liceo 21", TipoJugador.MEDIO).getValorString());
         Assertions.assertEquals(Retorno.ok().getResultado(), sistema.registrarJugador("4.634.456-1","DerPedro",12,"Escuela1", TipoJugador.INICIAL).getResultado());
         Assertions.assertEquals(Retorno.ok().getResultado(), sistema.registrarJugador("9.634.456-1","DerPedro",12,"Escuela1", TipoJugador.MEDIO).getResultado());
         Assertions.assertEquals(Retorno.error3("Error3").getResultado(), sistema.registrarJugador("8.634.456-1","DerPedroRepetido",12,"Escuela1", TipoJugador.MEDIO).getResultado());
@@ -121,6 +121,10 @@ public class TestSistemaAFuturo {
         Assertions.assertEquals(Retorno.error2("error").getResultado(), sistema.viajeCostoMinimoMonedas("aa","aa5").getResultado());
         Assertions.assertEquals(Retorno.error3("error").getResultado(), sistema.viajeCostoMinimoMonedas("aa8","aa5").getResultado());
         Assertions.assertEquals(Retorno.error4("error").getResultado(), sistema.viajeCostoMinimoMonedas("aa","aa8").getResultado());
+
+
+
+        Assertions.assertEquals(Retorno.ok().getResultado(), sistema.filtrarJugadores(Consulta.fromString("escuela='Liceo 21'")).getResultado());
 
     }
 }
