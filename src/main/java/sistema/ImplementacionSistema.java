@@ -66,8 +66,7 @@ public class ImplementacionSistema implements Sistema {
                             }
                         }
                         if (totalPuntos >= minimo) resultadoExploracion = "pasa";
-                        Retorno retorno = new Retorno(Retorno.Resultado.OK, totalPuntos, resultadoExploracion);
-                        return retorno;
+                        return Retorno.ok(totalPuntos, resultadoExploracion);
                     } else {
                         return Retorno.error4("El mínimo es menor o igual a cero.");
                     }
@@ -116,11 +115,10 @@ public class ImplementacionSistema implements Sistema {
     //Ejercicio 4 - Listo
     @Override
     public Retorno filtrarJugadores(Consulta consulta) {
-        Retorno retorno = new Retorno(Retorno.Resultado.OK, 0, "");
         if (!consulta.toString().isEmpty()) {
             ListaGen<String> listaGen = new ListaGen<>();
             filtrar(arbolJugadores.getRaiz(), listaGen, consulta);
-            return new Retorno(Retorno.Resultado.OK, 0, listaGen.toString());
+            return Retorno.ok( 0, listaGen.toString());
         } else {
             return Retorno.error1("La consulta esta vacía.");
         }
@@ -158,8 +156,7 @@ public class ImplementacionSistema implements Sistema {
         if (!ci.isEmpty() && Jugador.validarCedula(ci)) {
             Tupla jugadorEncontrado = arbolJugadores.buscar(new Jugador(ci));
             if (jugadorEncontrado.getDato() != null) {
-                Retorno retorno = new Retorno(Retorno.Resultado.OK, jugadorEncontrado.getCantidad(), jugadorEncontrado.getDato().toString());
-                return retorno;
+                return Retorno.ok(jugadorEncontrado.getCantidad(), jugadorEncontrado.getDato().toString());
             } else {
                 return Retorno.error2("No existe un jugador registrado con esa cédula.");
             }
@@ -171,41 +168,37 @@ public class ImplementacionSistema implements Sistema {
     //Ejercicio 7 - Listo
     @Override
     public Retorno listarJugadoresPorCedulaAscendente() {
-        Retorno retorno = new Retorno(Retorno.Resultado.OK, 0, "");
         ListaGen<Jugador> listaJugadoresAsc = arbolJugadores.listarAscendente();
         if (listaJugadoresAsc.getCantNodos() != 0) {
-            retorno = new Retorno(Retorno.Resultado.OK, 0, listaJugadoresAsc.toString());
+           return Retorno.ok(0, listaJugadoresAsc.toString());
         }
 
-        return retorno;
+        return Retorno.ok(0, "");
     }
 
     //Ejercicio 6 - Listo
     @Override
     public Retorno listarJugadoresPorCedulaDescendente() {
-
-        Retorno retorno = new Retorno(Retorno.Resultado.OK, 0, "");
         ListaGen<Jugador> listaJugadoresDes = arbolJugadores.listarDescendente();
         if (listaJugadoresDes.getCantNodos() != 0) {
-            retorno = new Retorno(Retorno.Resultado.OK, 0, listaJugadoresDes.toString());
+            return Retorno.ok(0, listaJugadoresDes.toString());
         }
 
-        return retorno;
+        return Retorno.ok(0, "");
     }
 
     //Ejercicio 8 - Listo
     @Override
     public Retorno listarJugadoresPorTipo(TipoJugador unTipo) {
-
         if (unTipo != null) {
             if (unTipo.getIndice() == 0) { //Avanzado
-                return new Retorno(Retorno.Resultado.OK, 0, listaJugadoresAvanzado.toString());
+                return Retorno.ok( 0, listaJugadoresAvanzado.toString());
             } else if (unTipo.getIndice() == 1) { //Medio
-                return new Retorno(Retorno.Resultado.OK, 0, listaJugadoresMedio.toString());
+                return Retorno.ok(0, listaJugadoresMedio.toString());
             } else if (unTipo.getIndice() == 2) { //Inicial
-                return new Retorno(Retorno.Resultado.OK, 0, listaJugadoresInicial.toString());
+                return Retorno.ok(0, listaJugadoresInicial.toString());
             } else { //Monitor
-                return new Retorno(Retorno.Resultado.OK, 0, listaJugadoresMonitor.toString());
+                return Retorno.ok(0, listaJugadoresMonitor.toString());
             }
         } else {
             return Retorno.error1("Tipo es null");
@@ -297,8 +290,7 @@ public class ImplementacionSistema implements Sistema {
             CentroUrbano buscarCU = grafoCentrosUrbanos.obtenerVertice(codigoCentroOrigen);
             if (buscarCU != null) {
                 ABB<CentroUrbano> nuevoArbol = grafoCentrosUrbanos.bfsSinRepetir(buscarCU, cantidad);
-                Retorno retorno = new Retorno(Retorno.Resultado.OK, 0, nuevoArbol.listarAscendente().toString());
-                return retorno;
+                return Retorno.ok(0, nuevoArbol.listarAscendente().toString());
             } else {
                 return Retorno.error2("El centro no está registrado en el sistema.");
             }
@@ -317,7 +309,7 @@ public class ImplementacionSistema implements Sistema {
                 if (codDestino != null) {
                     Tupla costoKMS = grafoCentrosUrbanos.dijkstraImplementado(codOrigen, codDestino, "kms");
                     if (costoKMS.getCantidad() != Integer.MAX_VALUE && costoKMS.getCantidad() > 0) {
-                        return new Retorno(Retorno.Resultado.OK, costoKMS.getCantidad(), costoKMS.getDato().toString());
+                        return Retorno.ok(costoKMS.getCantidad(), costoKMS.getDato().toString());
                     } else {
                         return Retorno.error2("No hay camino entre el origen y el destino.");
                     }
@@ -327,7 +319,6 @@ public class ImplementacionSistema implements Sistema {
             } else {
                 return Retorno.error3("No existe el Centro Urbano de Origen.");
             }
-
         } else {
             return Retorno.error1("Alguno de los códigos es vacío o null.");
         }
@@ -343,7 +334,7 @@ public class ImplementacionSistema implements Sistema {
                 if (codDestino != null) {
                     Tupla costoMonedas = grafoCentrosUrbanos.dijkstraImplementado(codOrigen, codDestino, "costos");
                     if (costoMonedas.getCantidad() != Integer.MAX_VALUE && costoMonedas.getCantidad() > 0) {
-                        return new Retorno(Retorno.Resultado.OK, costoMonedas.getCantidad(), costoMonedas.getDato().toString());
+                        return Retorno.ok(costoMonedas.getCantidad(), costoMonedas.getDato().toString());
                     } else {
                         return Retorno.error2("No hay camino entre el origen y el destino.");
                     }
@@ -353,7 +344,6 @@ public class ImplementacionSistema implements Sistema {
             } else {
                 return Retorno.error3("No existe el Centro Urbano de Origen.");
             }
-
         } else {
             return Retorno.error1("Alguno de los códigos es vacío o null.");
         }
