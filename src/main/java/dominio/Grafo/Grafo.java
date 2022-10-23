@@ -103,18 +103,16 @@ public class Grafo {
         int posDestino = obtenerPos(destino);
         return matAdyacentes[posOrigen][posDestino].isExiste();
     }
+//precondicion:arista existe.
+    public void actualizarArista(CentroUrbano origen, CentroUrbano destino, double costo, double tiempo, double kms, EstadoCamino estadoDelCamino) {
 
-    public boolean actualizarArista(CentroUrbano origen, CentroUrbano destino, double costo, double tiempo, double kms, EstadoCamino estadoDelCamino) {
-        if (existeArista(origen, destino)) {
             int posOrigen = obtenerPos(origen);
             int posDestino = obtenerPos(destino);
             matAdyacentes[posOrigen][posDestino].setCosto(costo);
             matAdyacentes[posOrigen][posDestino].setTiempo(tiempo);
             matAdyacentes[posOrigen][posDestino].setKms(kms);
             matAdyacentes[posOrigen][posDestino].setEstadoDelCamino(estadoDelCamino);
-            return true;
-        }
-        return false;
+
     }
 
     public ABB<CentroUrbano> bfsSinRepetir(CentroUrbano vert, int nivel) {
@@ -194,7 +192,6 @@ public class Grafo {
             camino = "|" + vertices[indice] + camino;
             indice = anterior[indice];
         }
-
         camino = vertices[posOrigen]+ camino;
         return camino;
     }
