@@ -4,9 +4,6 @@ public class Tupla<T> {
     private T dato;
     private int cantidad;
 
-    public Tupla() {
-    }
-
     public Tupla(T dato, int cantidad) {
         this.dato = dato;
         this.cantidad = cantidad;

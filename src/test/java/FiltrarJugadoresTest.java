@@ -26,6 +26,7 @@ public class FiltrarJugadoresTest {
     @Test
     void deberiaFiltrarJugador() {
 
+        Consulta consultita = Consulta.fromString("edad > 15 OR escuela = 'Felipe'");
         retorno = sistema.filtrarJugadores(Consulta.fromString("edad > 15 OR escuela = 'Felipe'"));
         assertEquals(Retorno.Resultado.OK,retorno.getResultado());
         assertEquals("4.685.375-3|5.135.139-2|5.447.365-1",retorno.getValorString());

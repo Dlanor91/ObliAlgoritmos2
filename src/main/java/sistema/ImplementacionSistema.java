@@ -1,3 +1,8 @@
+/*
+246484 - Emilio Barcelona
+276733 - Ronald Lima
+278293 - Maira Hill
+*/
 package sistema;
 
 import dominio.Arbol.ABB;
@@ -10,8 +15,6 @@ import dominio.Grafo.Grafo;
 import dominio.Jugador;
 import dominio.Lista.ListaGen;
 import interfaz.*;
-
-import java.sql.SQLOutput;
 
 public class ImplementacionSistema implements Sistema {
     private ABB<Jugador> arbolJugadores;
@@ -134,18 +137,15 @@ public class ImplementacionSistema implements Sistema {
 
     private boolean recorrerConsulta(Consulta.NodoConsulta nodo, NodoGenArbol<Jugador> nodoJugador) {
         if (nodo != null) {
-            switch (nodo.getTipoNodoConsulta()) {
-                case EscuelaIgual:
-                    return (nodoJugador.getDato().getEscuela().equals(nodo.getValorString()));
-                case NombreIgual:
-                    return (nodoJugador.getDato().getNombre().equals(nodo.getValorString()));
-                case EdadMayor:
-                    return (nodoJugador.getDato().getEdad() > (nodo.getValorInt()));
-                case Or:
-                    return (recorrerConsulta(nodo.getIzq(), nodoJugador) || recorrerConsulta(nodo.getDer(), nodoJugador));
-                case And:
-                    return (recorrerConsulta(nodo.getIzq(), nodoJugador) && recorrerConsulta(nodo.getDer(), nodoJugador));
-            }
+            return switch (nodo.getTipoNodoConsulta()) {
+                case EscuelaIgual -> (nodoJugador.getDato().getEscuela().equals(nodo.getValorString()));
+                case NombreIgual -> (nodoJugador.getDato().getNombre().equals(nodo.getValorString()));
+                case EdadMayor -> (nodoJugador.getDato().getEdad() > (nodo.getValorInt()));
+                case Or ->
+                        (recorrerConsulta(nodo.getIzq(), nodoJugador) || recorrerConsulta(nodo.getDer(), nodoJugador));
+                case And ->
+                        (recorrerConsulta(nodo.getIzq(), nodoJugador) && recorrerConsulta(nodo.getDer(), nodoJugador));
+            };
         }
         return false;
     }
@@ -170,10 +170,10 @@ public class ImplementacionSistema implements Sistema {
     public Retorno listarJugadoresPorCedulaAscendente() {
         ListaGen<Jugador> listaJugadoresAsc = arbolJugadores.listarAscendente();
         if (listaJugadoresAsc.getCantNodos() != 0) {
-           return Retorno.ok(0, listaJugadoresAsc.toString());
+           return Retorno.ok(listaJugadoresAsc.toString());
         }
 
-        return Retorno.ok(0, "");
+        return Retorno.ok("");
     }
 
     //Ejercicio 6 - Listo
@@ -181,10 +181,10 @@ public class ImplementacionSistema implements Sistema {
     public Retorno listarJugadoresPorCedulaDescendente() {
         ListaGen<Jugador> listaJugadoresDes = arbolJugadores.listarDescendente();
         if (listaJugadoresDes.getCantNodos() != 0) {
-            return Retorno.ok(0, listaJugadoresDes.toString());
+            return Retorno.ok( listaJugadoresDes.toString());
         }
 
-        return Retorno.ok(0, "");
+        return Retorno.ok( "");
     }
 
     //Ejercicio 8 - Listo
@@ -192,13 +192,13 @@ public class ImplementacionSistema implements Sistema {
     public Retorno listarJugadoresPorTipo(TipoJugador unTipo) {
         if (unTipo != null) {
             if (unTipo.getIndice() == 0) { //Avanzado
-                return Retorno.ok( 0, listaJugadoresAvanzado.toString());
+                return Retorno.ok(listaJugadoresAvanzado.toString());
             } else if (unTipo.getIndice() == 1) { //Medio
-                return Retorno.ok(0, listaJugadoresMedio.toString());
+                return Retorno.ok(listaJugadoresMedio.toString());
             } else if (unTipo.getIndice() == 2) { //Inicial
-                return Retorno.ok(0, listaJugadoresInicial.toString());
+                return Retorno.ok(listaJugadoresInicial.toString());
             } else { //Monitor
-                return Retorno.ok(0, listaJugadoresMonitor.toString());
+                return Retorno.ok(listaJugadoresMonitor.toString());
             }
         } else {
             return Retorno.error1("Tipo es null");
@@ -290,7 +290,7 @@ public class ImplementacionSistema implements Sistema {
             CentroUrbano buscarCU = grafoCentrosUrbanos.obtenerVertice(codigoCentroOrigen);
             if (buscarCU != null) {
                 ABB<CentroUrbano> nuevoArbol = grafoCentrosUrbanos.bfsSinRepetir(buscarCU, cantidad);
-                return Retorno.ok(0, nuevoArbol.listarAscendente().toString());
+                return Retorno.ok(nuevoArbol.listarAscendente().toString());
             } else {
                 return Retorno.error2("El centro no está registrado en el sistema.");
             }
