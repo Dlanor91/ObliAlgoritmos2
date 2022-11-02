@@ -122,8 +122,7 @@ public class TestSistemaAFuturo {
         Assertions.assertEquals(Retorno.error3("error").getResultado(), sistema.viajeCostoMinimoMonedas("aa8","aa5").getResultado());
         Assertions.assertEquals(Retorno.error4("error").getResultado(), sistema.viajeCostoMinimoMonedas("aa","aa8").getResultado());
 
-
-
+        Assertions.assertEquals(Retorno.error1("error").getResultado(), sistema.filtrarJugadores(null).getResultado());
         Assertions.assertEquals(Retorno.ok().getResultado(), sistema.filtrarJugadores(Consulta.fromString("escuela='Liceo 21'")).getResultado());
 
     }
