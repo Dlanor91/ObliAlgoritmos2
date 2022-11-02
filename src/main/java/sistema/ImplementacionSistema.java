@@ -118,7 +118,7 @@ public class ImplementacionSistema implements Sistema {
     //Ejercicio 4 - Listo
     @Override
     public Retorno filtrarJugadores(Consulta consulta) {
-        if (!consulta.toString().isEmpty()) {
+        if (consulta != null) {
             ListaGen<String> listaGen = new ListaGen<>();
             filtrar(arbolJugadores.getRaiz(), listaGen, consulta);
             return Retorno.ok( 0, listaGen.toString());
